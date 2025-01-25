@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: api-gateway
+  config:
+    import: "optional:configserver:http://10.34.0.3:8088"
+  cloud:
+    gateway:
+      routes:
+        - id: employee-service
+          uri: lb://employee-service
+          predicates:
+            - Path=/employee/**
+        - id: department-service
+          uri: lb://department-service
+          predicates:
+            - Path=/department/**
+        - id: authentication-server
+          uri: lb://authentication-server
+          predicates:
+            - Path=/login/**

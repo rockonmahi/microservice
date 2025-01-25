@@ -1,0 +1,102 @@
+version: '3.1'
+
+services:
+
+  registry-service:
+    container_name: registry-service
+    build:
+      context: ./registry-service
+    restart: unless-stopped
+    ports:
+      - 8761:8761
+    networks:
+      vpcjava:
+        ipv4_address: 10.34.0.2
+
+  config-server:
+    container_name: config-server
+    build:
+      context: ./config-server
+    restart: unless-stopped
+    ports:
+      - 8088:8088
+    depends_on:
+      - registry-service
+    networks:
+      vpcjava:
+        ipv4_address: 10.34.0.3
+
+  api-gateway:
+    container_name: api-gateway
+    build:
+      context: ./api-gateway
+    restart: unless-stopped
+    ports:
+      - 8060:8060
+    depends_on:
+      - config-server
+    networks:
+      vpcjava:
+        ipv4_address: 10.34.0.4
+
+  mysql57:
+    container_name: mysql57
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: java1234
+      MYSQL_DATABASE: practice
+    ports:
+      - '3306:3306'
+    volumes:
+      - ./db/mysql/data:/var/lib/mysql
+      - ./db/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./db/mysql/sql:/docker-entrypoint-initdb.d
+    networks:
+      vpcjava:
+        ipv4_address: 10.34.0.11 
+        
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: testuser
+      POSTGRES_PASSWORD: testpass
+    ports:
+      - "5432:5432"
+    volumes:
+      - db:/db/postgresql
+    networks:
+      vpcjava:
+        ipv4_address: 10.34.0.12
+        
+  zipkin:
+    container_name: zipkin
+    image: openzipkin/zipkin
+    ports:
+      - '9411:9411'
+    networks:
+      vpcjava:
+        ipv4_address: 10.34.0.20
+  
+  nginx:
+    container_name: web-server
+    build:
+      context: ./web-server
+    restart: unless-stopped
+    ports:
+      - 80:80
+    networks:
+      vpcjava:
+        ipv4_address: 10.34.0.21
+        
+networks:
+  vpcjava:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 10.34.0.0/16
+         gateway: 10.34.0.1
+         
+volumes:
+  db:

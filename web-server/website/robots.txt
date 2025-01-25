@@ -1,0 +1,7 @@
+# Crawlers Setup
+User-agent: *
+
+# Directories
+Disallow: /404/
+
+sitemap: https://app.letsburn.me/sitemap.xml
