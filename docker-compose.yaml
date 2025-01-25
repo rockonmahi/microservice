@@ -19,7 +19,7 @@ services:
       context: ./config-server
     restart: unless-stopped
     ports:
-      - 8088:8088
+      - 7103:7103
     depends_on:
       - registry-service
     networks:
@@ -32,12 +32,38 @@ services:
       context: ./api-gateway
     restart: unless-stopped
     ports:
-      - 8060:8060
+      - 7104:7104
     depends_on:
       - config-server
     networks:
       vpcjava:
         ipv4_address: 10.34.0.4
+        
+  authentication-server:
+    container_name: authentication-server
+    build:
+      context: ./authentication-server
+    restart: unless-stopped
+    ports:
+      - 7105:7105
+    depends_on:
+      - config-server
+    networks:
+      vpcjava:
+        ipv4_address: 10.34.0.5
+   
+  resource-server:
+    container_name: resource-server
+    build:
+      context: ./resource-server
+    restart: unless-stopped
+    ports:
+      - 7106:7106
+    depends_on:
+      - config-server
+    networks:
+      vpcjava:
+        ipv4_address: 10.34.0.6
 
   mysql57:
     container_name: mysql57
