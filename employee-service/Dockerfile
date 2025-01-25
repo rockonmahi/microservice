@@ -1,3 +1,3 @@
 FROM amazoncorretto:17-alpine-jdk
-COPY escola/target/escola-1.jar escola.jar
-ENTRYPOINT ["java","-jar","/escola.jar"]
+COPY target/employee-service-1.jar employee-service.jar
+ENTRYPOINT ["java","-jar","/employee-service.jar"]
