@@ -1,4 +1,4 @@
-package com.mudra.bootsecurity.filter;
+package com.escola.saml2.filter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -28,7 +28,7 @@ public class Saml2Filter extends OncePerRequestFilter {
     public Saml2Filter(RelyingPartyRegistrationResolver relyingPartyRegistrationResolver, Saml2MetadataResolver saml2MetadataResolver) {
         Assert.notNull(relyingPartyRegistrationResolver, "relyingPartyRegistrationResolver cannot be null");
         Assert.notNull(saml2MetadataResolver, "saml2MetadataResolver cannot be null");
-        this.metadataResolver = new com.mudra.bootsecurity.filter.Saml2Filter.Saml2MetadataResponseResolverAdapter(relyingPartyRegistrationResolver, saml2MetadataResolver);
+        this.metadataResolver = new Saml2Filter.Saml2MetadataResponseResolverAdapter(relyingPartyRegistrationResolver, saml2MetadataResolver);
     }
 
     public Saml2Filter(RelyingPartyRegistrationRepository relyingPartyRegistrationRepository, Saml2MetadataResolver saml2MetadataResolver) {
@@ -68,15 +68,15 @@ public class Saml2Filter extends OncePerRequestFilter {
 
     public void setRequestMatcher(RequestMatcher requestMatcher) {
         Assert.notNull(requestMatcher, "requestMatcher cannot be null");
-        Assert.isInstanceOf(com.mudra.bootsecurity.filter.Saml2Filter.Saml2MetadataResponseResolverAdapter.class, this.metadataResolver, "a Saml2MetadataResponseResolver and RequestMatcher cannot be both set on this filter. Please set the request matcher on the Saml2MetadataResponseResolver itself.");
-        ((com.mudra.bootsecurity.filter.Saml2Filter.Saml2MetadataResponseResolverAdapter)this.metadataResolver).setRequestMatcher(requestMatcher);
+        Assert.isInstanceOf(Saml2Filter.Saml2MetadataResponseResolverAdapter.class, this.metadataResolver, "a Saml2MetadataResponseResolver and RequestMatcher cannot be both set on this filter. Please set the request matcher on the Saml2MetadataResponseResolver itself.");
+        ((Saml2Filter.Saml2MetadataResponseResolverAdapter)this.metadataResolver).setRequestMatcher(requestMatcher);
     }
 
     public void setMetadataFilename(String metadataFilename) {
         Assert.hasText(metadataFilename, "metadataFilename cannot be empty");
         Assert.isTrue(metadataFilename.contains("{registrationId}"), "metadataFilename must contain a {registrationId} match variable");
-        Assert.isInstanceOf(com.mudra.bootsecurity.filter.Saml2Filter.Saml2MetadataResponseResolverAdapter.class, this.metadataResolver, "a Saml2MetadataResponseResolver and file name cannot be both set on this filter. Please set the file name on the Saml2MetadataResponseResolver itself.");
-        ((com.mudra.bootsecurity.filter.Saml2Filter.Saml2MetadataResponseResolverAdapter)this.metadataResolver).setMetadataFilename(metadataFilename);
+        Assert.isInstanceOf(Saml2Filter.Saml2MetadataResponseResolverAdapter.class, this.metadataResolver, "a Saml2MetadataResponseResolver and file name cannot be both set on this filter. Please set the file name on the Saml2MetadataResponseResolver itself.");
+        ((Saml2Filter.Saml2MetadataResponseResolverAdapter)this.metadataResolver).setMetadataFilename(metadataFilename);
     }
 
     private static final class Saml2MetadataResponseResolverAdapter implements Saml2MetadataResponseResolver {

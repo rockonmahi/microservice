@@ -1,4 +1,4 @@
-package com.mudra.bootsecurity.service;
+package com.escola.saml2.service;
 
 
 public class Car {

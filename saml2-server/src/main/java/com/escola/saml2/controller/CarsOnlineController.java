@@ -1,4 +1,4 @@
-package com.mudra.bootsecurity.controller;
+package com.escola.saml2.controller;
 
 import java.util.List;
 
@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.view.RedirectView;
 
-import com.mudra.bootsecurity.service.Car;
-import com.mudra.bootsecurity.service.CarsOnlineService;
+import com.escola.saml2.service.Car;
+import com.escola.saml2.service.CarsOnlineService;
 
 @Controller
 public class CarsOnlineController {

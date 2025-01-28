@@ -1,5 +1,6 @@
-package com.mudra.bootsecurity.filter;
+package com.escola.saml2.bean;
 
+import com.escola.saml2.filter.Saml2Filter;
 import org.opensaml.saml.saml2.core.Assertion;
 import org.opensaml.saml.saml2.core.Attribute;
 import org.opensaml.saml.saml2.core.AttributeStatement;
@@ -16,7 +17,6 @@ import org.springframework.security.saml2.provider.service.metadata.OpenSamlMeta
 import org.springframework.security.saml2.provider.service.registration.RelyingPartyRegistrationRepository;
 import org.springframework.security.saml2.provider.service.web.DefaultRelyingPartyRegistrationResolver;
 import org.springframework.security.saml2.provider.service.web.RelyingPartyRegistrationResolver;
-import org.springframework.security.saml2.provider.service.web.Saml2MetadataFilter;
 
 import java.util.Collection;
 import java.util.List;
@@ -42,15 +42,16 @@ public class Saml2Bean {
                 = OpenSaml4AuthenticationProvider.createDefaultResponseAuthenticationConverter();
 
         OpenSaml4AuthenticationProvider samlAuthProv = new OpenSaml4AuthenticationProvider();
-        samlAuthProv.setResponseAuthenticationConverter(responseToken -> {
 
+        samlAuthProv.setResponseAuthenticationConverter(responseToken -> {
             Saml2Authentication authentication = authConvertor.convert(responseToken);
 
             Assertion assertion = responseToken.getResponse().getAssertions().get(0);
             AuthenticatedPrincipal principal = (AuthenticatedPrincipal) authentication.getPrincipal();
 
             System.out.println(principal.getName());
-            System.out.println(authentication.getPrincipal());
+            System.out.println(authentication.getPrincipal().toString());
+            System.out.println(assertion.toString());
 
             Collection<? extends GrantedAuthority> authorities = authoritiesExtractor().convert(assertion);
             return new Saml2Authentication(principal, authentication.getSaml2Response(), authorities);

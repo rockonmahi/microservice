@@ -1,4 +1,4 @@
-package com.mudra.bootsecurity.service;
+package com.escola.saml2.service;
 
 import java.util.ArrayList;
 import java.util.List;

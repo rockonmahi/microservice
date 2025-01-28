@@ -1,8 +1,8 @@
-package com.mudra.bootsecurity.config;
+package com.escola.saml2.config;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
-import com.mudra.bootsecurity.filter.Saml2Filter;
+import com.escola.saml2.filter.Saml2Filter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
