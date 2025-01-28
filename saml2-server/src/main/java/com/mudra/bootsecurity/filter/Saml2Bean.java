@@ -28,8 +28,8 @@ public class Saml2Bean {
     RelyingPartyRegistrationRepository relyingPartyRegistrationRepository;
 
     @Bean
-    public Saml2MetadataFilter saml2MetadataFilter() {
-        Saml2MetadataFilter filter = new Saml2MetadataFilter(
+    public Saml2Filter saml2Filter() {
+        Saml2Filter filter = new Saml2Filter(
                 (RelyingPartyRegistrationResolver) new DefaultRelyingPartyRegistrationResolver(this.relyingPartyRegistrationRepository),
                 new OpenSamlMetadataResolver());
         return filter;
