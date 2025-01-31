@@ -3,25 +3,3 @@ spring:
     name: api-gateway
   config:
     import: "optional:configserver:http://10.34.0.3:7103"
-  cloud:
-    gateway:
-      routes:
-        - id: employee-service
-          uri: lb://employee-service
-          predicates:
-            - Path=/employee/**
-
-        - id: department-service
-          uri: lb://department-service
-          predicates:
-            - Path=/department/**
-
-        - id: authentication-server
-          uri: lb://authentication-server
-          predicates:
-            - Path=/oauth2/**
-
-        - id: resource-server
-          uri: lb://resource-server
-          predicates:
-            - Path=/login/**

@@ -9,7 +9,7 @@
 		<relativePath/>
 	</parent>
 	
-	<groupId>com.dailycodebuffer</groupId>
+	<groupId>com.escola</groupId>
 	<artifactId>employee-service</artifactId>
 	<version>1</version>
 	<name>employee-service</name>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.microservice</groupId>
+	<artifactId>microservice-parent</artifactId>
+	<version>1</version>
+	<packaging>pom</packaging>
+	<name>Microservice</name>
+	<description>Microservice</description>
+
+	<modules>
+		<module>api-gateway</module>
+		<module>authentication-server</module>
+		<module>config-server</module>
+		<module>department-service</module>
+		<module>employee-service</module>
+		<module>registry-service</module>
+		<module>resource-server</module>
+		<module>saml2-server</module>
+	</modules>
+
+	<properties>
+	</properties>
+</project>

@@ -8,7 +8,7 @@
 		<version>3.4.1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.eazybytes</groupId>
+	<groupId>com.escola</groupId>
 	<artifactId>authentication-server</artifactId>
 	<version>1</version>
 	<name>authentication-server</name>

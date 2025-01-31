@@ -10,3 +10,27 @@ management:
   tracing:
     sampling:
       probability: 1.0
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: employee-service
+          uri: lb://employee-service
+          predicates:
+            - Path=/employee/**
+
+        - id: department-service
+          uri: lb://department-service
+          predicates:
+            - Path=/department/**
+
+        - id: authentication-server
+          uri: lb://authentication-server
+          predicates:
+            - Path=/oauth2/**
+
+        - id: resource-server
+          uri: lb://resource-server
+          predicates:
+            - Path=/login/**

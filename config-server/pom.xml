@@ -8,7 +8,7 @@
 		<version>3.4.1</version>
 		<relativePath/>
 	</parent>
-	<groupId>com.dailycodebuffer</groupId>
+	<groupId>com.escola</groupId>
 	<artifactId>config-server</artifactId>
 	<version>1</version>
 	<name>config-server</name>

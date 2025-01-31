@@ -27,10 +27,8 @@ public class CarsOnlineController {
 	@GetMapping("/carsonline")
 	public String showUsedCars(Authentication authentication, Model model) {
 		
-		// Get all cars from the Service
 		List<Car> allCars = carsService.listCars();
 		
-		// Delegate to the View to show the Car listing
 		model.addAttribute("name", authentication.getName());
 		model.addAttribute("cars", allCars);
 		return "carsonline";
@@ -38,7 +36,6 @@ public class CarsOnlineController {
 	
 	@GetMapping("/buy/{id}")
 	public String buyCar(Authentication authentication, Model model, @PathVariable(name = "id") int id) {
-		
 		model.addAttribute("name", authentication.getName());
 		
 		Car car = null; 
@@ -52,10 +49,8 @@ public class CarsOnlineController {
 		return "buycar";
 	}
 
-	// Warning : Don't use GetMapping for edit operation. This is just for test
 	@GetMapping("/edit/{id}")
 	public String editCar(Authentication authentication, Model model, @PathVariable(name = "id") int id) {
-		
 		model.addAttribute("name", authentication.getName());
 		return "editcar";
 	}
@@ -64,6 +59,4 @@ public class CarsOnlineController {
 	public String showUser() {	
 		return "user";
 	}
-	
-
 }

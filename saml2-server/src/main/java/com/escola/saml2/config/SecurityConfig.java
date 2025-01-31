@@ -28,10 +28,10 @@ public class SecurityConfig {
 			.saml2Logout(withDefaults())
 			.authenticationProvider(samlAuthProv)
 			.addFilterBefore(saml2Filter, Saml2WebSsoAuthenticationFilter.class)
-			.authorizeHttpRequests(authorize -> 
+			.authorizeHttpRequests(authorize ->
 				authorize
-					.requestMatchers("/favicon.ico","/css/**","/error").permitAll()
-					.requestMatchers("/", "/carsonline", "/buy/**", "/user")
+					.requestMatchers("/","/favicon.ico","/css/**","/error").permitAll()
+					.requestMatchers( "/carsonline", "/buy/**", "/user")
 					.authenticated());
  
 		return http.build();

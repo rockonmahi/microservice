@@ -8,7 +8,7 @@
 		<version>3.4.0</version>
 		<relativePath/>
 	</parent>
-	<groupId>com.eazybytes</groupId>
+	<groupId>com.escola</groupId>
 	<artifactId>resource-server</artifactId>
 	<version>1</version>
 	<name>resource-server</name>
