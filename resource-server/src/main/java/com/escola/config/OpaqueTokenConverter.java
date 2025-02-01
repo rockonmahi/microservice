@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-public class KeycloakOpaqueRoleConverter implements OpaqueTokenAuthenticationConverter {
+public class OpaqueTokenConverter implements OpaqueTokenAuthenticationConverter {
 
     @Override
     public Authentication convert(String introspectedToken, OAuth2AuthenticatedPrincipal authenticatedPrincipal) {

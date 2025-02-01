@@ -64,6 +64,32 @@ services:
     networks:
       vpcjava:
         ipv4_address: 10.34.0.6
+        
+  saml2-server:
+    container_name: saml2-server
+    build:
+      context: ./saml2-server
+    restart: unless-stopped
+    ports:
+      - 7107:7107
+    depends_on:
+      - config-server
+    networks:
+      vpcjava:
+        ipv4_address: 10.34.0.7
+  
+  user-service:
+    container_name: user-service
+    build:
+      context: ./user-service
+    restart: unless-stopped
+    ports:
+      - 7108:7108
+    depends_on:
+      - config-server
+    networks:
+      vpcjava:
+        ipv4_address: 10.34.0.8
 
   mysql57:
     container_name: mysql57
@@ -79,7 +105,7 @@ services:
       - ./db/mysql/sql:/docker-entrypoint-initdb.d
     networks:
       vpcjava:
-        ipv4_address: 10.34.0.11 
+        ipv4_address: 10.34.0.11
         
   postgres:
     image: postgres:15

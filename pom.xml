@@ -14,11 +14,10 @@
 		<module>api-gateway</module>
 		<module>authentication-server</module>
 		<module>config-server</module>
-		<module>department-service</module>
-		<module>employee-service</module>
 		<module>registry-service</module>
 		<module>resource-server</module>
 		<module>saml2-server</module>
+		<module>user-service</module>
 	</modules>
 
 	<properties>
