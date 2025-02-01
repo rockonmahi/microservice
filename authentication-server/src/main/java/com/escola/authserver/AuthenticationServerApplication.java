@@ -11,5 +11,4 @@ public class AuthenticationServerApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(AuthenticationServerApplication.class, args);
 	}
-
 }

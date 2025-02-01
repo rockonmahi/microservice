@@ -1,0 +1,17 @@
+server:
+  port: 7103
+
+spring:
+  profiles:
+    active: native
+  application:
+    name: config-server
+  cloud:
+    config:
+      server:
+        bootstrap: "false"
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://10.34.0.2:8761/eureka/

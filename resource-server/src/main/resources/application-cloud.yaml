@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: resource-server
+  config:
+    import: "optional:configserver:http://10.34.0.3:7103"

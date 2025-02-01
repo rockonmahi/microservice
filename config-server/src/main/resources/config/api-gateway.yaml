@@ -10,20 +10,23 @@ management:
   tracing:
     sampling:
       probability: 1.0
+  zipkin:
+    tracing:
+      endpoint: "http://10.34.0.20:9411/api/v2/spans"
 
 spring:
   cloud:
     gateway:
       routes:
-        - id: employee-service
-          uri: lb://employee-service
+        - id: user-service
+          uri: lb://user-service
           predicates:
-            - Path=/employee/**
+            - Path=/user/**
 
-        - id: department-service
-          uri: lb://department-service
+        - id: saml2-server
+          uri: lb://saml2-server
           predicates:
-            - Path=/department/**
+            - Path=/saml/**
 
         - id: authentication-server
           uri: lb://authentication-server
