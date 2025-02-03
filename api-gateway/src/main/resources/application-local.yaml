@@ -23,6 +23,7 @@ spring:
           uri: lb://authentication-server
           predicates:
             - Path=/oauth2/**
+            - Path=/auth/**
 
         - id: resource-server
           uri: lb://resource-server
