@@ -1,40 +1,10 @@
 server:
   port: 5104
 
-spring:
-  application:
-    name: api-gateway
-  cloud:
-    config:
-      enabled: false
-    gateway:
-      routes:
-        - id: user-service
-          uri: lb://user-service
-          predicates:
-            - Path=/user/**
-
-        - id: saml2-server
-          uri: lb://saml2-server
-          predicates:
-            - Path=/saml/**
-
-        - id: authentication-server
-          uri: lb://authentication-server
-          predicates:
-            - Path=/oauth2/**
-            - Path=/auth/**
-
-        - id: resource-server
-          uri: lb://resource-server
-          predicates:
-            - Path=/login/**
-
-
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:5102/eureka/
+      defaultZone: "http://localhost:5102/eureka/"
 
 management:
   tracing:
@@ -51,3 +21,29 @@ logging:
         security: "${SPRING_SECURITY_LOG_LEVEL:TRACE}"
   pattern:
     console: "${LOGPATTERN_CONSOLE:%green(%d{HH:mm:ss.SSS}) %blue(%-5level) %red([%thread]) %yellow(%logger{15}) - %msg%n}"
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    config:
+      enabled: false
+    gateway:
+      routes:
+        - id: authentication-server
+          uri: lb://authentication-server
+          predicates:
+            - Path=/oauth2/**
+            - Path=/auth/**
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/user/**
+        - id: saml2-server
+          uri: lb://saml2-server
+          predicates:
+            - Path=/saml/**
+        - id: resource-server
+          uri: lb://resource-server
+          predicates:
+            - Path=/login/**
