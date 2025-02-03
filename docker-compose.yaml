@@ -8,10 +8,10 @@ services:
       context: ./registry-service
     restart: unless-stopped
     ports:
-      - 8761:8761
+      - 5102:5102
     networks:
       vpcjava:
-        ipv4_address: 10.34.0.2
+        ipv4_address: 10.5.10.2
 
   config-server:
     container_name: config-server
@@ -19,12 +19,12 @@ services:
       context: ./config-server
     restart: unless-stopped
     ports:
-      - 7103:7103
+      - 5103:5103
     depends_on:
       - registry-service
     networks:
       vpcjava:
-        ipv4_address: 10.34.0.3
+        ipv4_address: 10.5.10.3
 
   api-gateway:
     container_name: api-gateway
@@ -32,12 +32,12 @@ services:
       context: ./api-gateway
     restart: unless-stopped
     ports:
-      - 7104:7104
+      - 5104:5104
     depends_on:
       - config-server
     networks:
       vpcjava:
-        ipv4_address: 10.34.0.4
+        ipv4_address: 10.5.10.4
         
   authentication-server:
     container_name: authentication-server
@@ -45,12 +45,12 @@ services:
       context: ./authentication-server
     restart: unless-stopped
     ports:
-      - 7105:7105
+      - 5105:5105
     depends_on:
       - config-server
     networks:
       vpcjava:
-        ipv4_address: 10.34.0.5
+        ipv4_address: 10.5.10.5
    
   resource-server:
     container_name: resource-server
@@ -58,39 +58,39 @@ services:
       context: ./resource-server
     restart: unless-stopped
     ports:
-      - 7106:7106
+      - 5106:5106
     depends_on:
       - config-server
     networks:
       vpcjava:
-        ipv4_address: 10.34.0.6
-        
+        ipv4_address: 10.5.10.6
+  
   saml2-server:
     container_name: saml2-server
     build:
       context: ./saml2-server
     restart: unless-stopped
     ports:
-      - 7107:7107
+      - 5107:5107
     depends_on:
       - config-server
     networks:
       vpcjava:
-        ipv4_address: 10.34.0.7
-  
+        ipv4_address: 10.5.10.7
+        
   user-service:
     container_name: user-service
     build:
       context: ./user-service
     restart: unless-stopped
     ports:
-      - 7108:7108
+      - 5108:5108
     depends_on:
       - config-server
     networks:
       vpcjava:
-        ipv4_address: 10.34.0.8
-
+        ipv4_address: 10.5.10.8
+        
   mysql57:
     container_name: mysql57
     image: mysql:5.7
@@ -105,7 +105,7 @@ services:
       - ./db/mysql/sql:/docker-entrypoint-initdb.d
     networks:
       vpcjava:
-        ipv4_address: 10.34.0.11
+        ipv4_address: 10.5.10.11
         
   postgres:
     image: postgres:15
@@ -120,7 +120,7 @@ services:
       - db:/db/postgresql
     networks:
       vpcjava:
-        ipv4_address: 10.34.0.12
+        ipv4_address: 10.5.10.12
         
   zipkin:
     container_name: zipkin
@@ -129,7 +129,7 @@ services:
       - '9411:9411'
     networks:
       vpcjava:
-        ipv4_address: 10.34.0.20
+        ipv4_address: 10.5.10.20
   
   nginx:
     container_name: web-server
@@ -140,15 +140,15 @@ services:
       - 80:80
     networks:
       vpcjava:
-        ipv4_address: 10.34.0.21
+        ipv4_address: 10.5.10.21
         
 networks:
   vpcjava:
     driver: bridge
     ipam:
      config:
-       - subnet: 10.34.0.0/16
-         gateway: 10.34.0.1
+       - subnet: 10.5.0.0/16
+         gateway: 10.5.0.1
          
 volumes:
   db:

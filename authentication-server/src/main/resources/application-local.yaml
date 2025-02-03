@@ -1,5 +1,5 @@
 server:
-  port: 7105
+  port: 5105
 
 spring:
   application:
@@ -20,7 +20,7 @@ spring:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://localhost:5102/eureka/
 
 management:
   tracing:

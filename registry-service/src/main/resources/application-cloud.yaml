@@ -1,5 +1,5 @@
 server:
-  port: 8761
+  port: 5102
 
 spring:
   application:
@@ -7,7 +7,7 @@ spring:
 
 eureka:
   instance:
-    hostname: 10.34.0.2
+    hostname: 10.5.10.2
   client:
     register-with-eureka: false
     fetch-registry: false

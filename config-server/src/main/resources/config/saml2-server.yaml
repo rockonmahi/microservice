@@ -1,5 +1,5 @@
 server:
-  port: 7107
+  port: 5107
 
 logging:
   level:
@@ -12,7 +12,7 @@ logging:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://10.34.0.2:8761/eureka/
+      defaultZone: http://10.5.10.2:5102/eureka/
 
 management:
   tracing:
@@ -20,7 +20,7 @@ management:
       probability: 1.0
   zipkin:
     tracing:
-      endpoint: "http://10.34.0.20:9411/api/v2/spans"
+      endpoint: "http://10.5.10.20:9411/api/v2/spans"
 
 
 spring:
