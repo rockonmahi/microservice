@@ -15,10 +15,10 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 	
 	@Autowired
-	Saml2Filter saml2Filter;
+	private Saml2Filter saml2Filter;
 
 	@Autowired
-	OpenSaml4AuthenticationProvider samlAuthProv;
+	private OpenSaml4AuthenticationProvider samlAuthProv;
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
