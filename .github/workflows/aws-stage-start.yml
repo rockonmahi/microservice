@@ -61,6 +61,8 @@ jobs:
         env:
           WEB_SERVER_IMAGE_URI: ${{env.AWS_WEB_SERVER_ECR_REPO_URL}}:latest
         run: |
+          npm install
+          ng build
           docker build -t $WEB_SERVER_IMAGE_URI .
           docker push $WEB_SERVER_IMAGE_URI
 
