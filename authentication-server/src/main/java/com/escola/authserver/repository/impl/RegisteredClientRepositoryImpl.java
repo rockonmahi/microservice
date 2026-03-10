@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class RegisteredClientRepositoryImpl implements org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository {
 
-    private final RegisteredClientsRepository registeredClientSecretRepository;
+    private final RegisteredClientsRepository registeredClientsRepository;
 
     @Override
     public void save(RegisteredClient registeredClient) {
@@ -31,16 +31,16 @@ public class RegisteredClientRepositoryImpl implements org.springframework.secur
 
     @Override
     public RegisteredClient findById(String id) {
-        return convert(registeredClientSecretRepository.findById(id).orElseThrow());
+        return convert(registeredClientsRepository.findById(id).orElseThrow());
     }
 
     @Override
     public RegisteredClient findByClientId(String clientId) {
-        return convert(registeredClientSecretRepository.findByClientId(clientId).orElseGet(() -> registeredClientNotFound(clientId)));
+        return convert(registeredClientsRepository.findByClientId(clientId).orElseGet(() -> registeredClientNotFound(clientId)));
     }
 
     private RegisteredClients save(RegisteredClients registeredClient) {
-       return registeredClientSecretRepository.save(registeredClient);
+       return registeredClientsRepository.save(registeredClient);
     }
 
     private RegisteredClients registeredClientNotFound(String clientId) {

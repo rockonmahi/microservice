@@ -51,7 +51,8 @@ public class SecurityConfig {
         http.securityMatcher(authorizationServerConfigurer.getEndpointsMatcher())
                 .with(authorizationServerConfigurer, Customizer.withDefaults())
                 .authorizeHttpRequests(authorize -> authorize
-                                .anyRequest().authenticated());
+                        .requestMatchers("/actuator/health").permitAll()
+                        .anyRequest().authenticated());
 
         http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
                 .oidc(Customizer.withDefaults());
@@ -73,12 +74,13 @@ public class SecurityConfig {
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
 
         http.authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/auth/health-check").permitAll()
+                        .requestMatchers("/actuator/health").permitAll()
                         .anyRequest().authenticated())
-                        .formLogin(Customizer.withDefaults());
+                .formLogin(Customizer.withDefaults());
 
         return http.build();
     }
+
 
     @Bean
     public JWKSource<SecurityContext> jwkSource() {
