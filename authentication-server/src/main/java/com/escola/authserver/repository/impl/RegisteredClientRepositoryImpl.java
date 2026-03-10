@@ -29,10 +29,6 @@ public class RegisteredClientRepositoryImpl implements org.springframework.secur
         save(convert(registeredClient));
     }
 
-    private RegisteredClients save(RegisteredClients registeredClient) {
-       return registeredClientSecretRepository.save(registeredClient);
-    }
-
     @Override
     public RegisteredClient findById(String id) {
         return convert(registeredClientSecretRepository.findById(id).orElseThrow());
@@ -41,6 +37,10 @@ public class RegisteredClientRepositoryImpl implements org.springframework.secur
     @Override
     public RegisteredClient findByClientId(String clientId) {
         return convert(registeredClientSecretRepository.findByClientId(clientId).orElseGet(() -> registeredClientNotFound(clientId)));
+    }
+
+    private RegisteredClients save(RegisteredClients registeredClient) {
+       return registeredClientSecretRepository.save(registeredClient);
     }
 
     private RegisteredClients registeredClientNotFound(String clientId) {
