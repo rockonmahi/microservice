@@ -16,11 +16,9 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class AuthenticationProviderImpl implements AuthenticationProvider {
 
-	@Autowired
-    private UserDetailsService userDetailsService;
-	
-	@Autowired
-    private PasswordEncoder passwordEncoder;
+    private final UserDetailsService userDetailsService;
+
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
