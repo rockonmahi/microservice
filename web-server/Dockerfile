@@ -1,3 +1,3 @@
 FROM nginx:alpine
-COPY website/ www/data/
+COPY dist/browser/ www/data/
 COPY nginx.conf /etc/nginx/nginx.conf
