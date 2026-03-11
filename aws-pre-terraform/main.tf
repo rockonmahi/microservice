@@ -66,7 +66,7 @@ module "ecr" {
   api_gateway_repo_name           = "${var.project_name}-api-gateway-repo"
   authentication_server_repo_name = "${var.project_name}-authentication-server-repo"
   saml2_server_repo_name          = "${var.project_name}-saml2-server-repo"
-  user_service_repo_name          = "${var.project_name}-user_service-repo"
+  user_service_repo_name          = "${var.project_name}-user-service-repo"
 }
 
 module "efs" {
