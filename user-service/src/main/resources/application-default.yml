@@ -1,7 +1,7 @@
 server:
   servlet:
     context-path: /user-service
-  port: 6116
+  port: 6117
 spring:
   application:
     name: user-service
@@ -35,7 +35,7 @@ eureka:
 management:
   endpoints:
     web:
-      base-path: /user-service
+      base-path: /actuator
       exposure:
         include: health
   zipkin:

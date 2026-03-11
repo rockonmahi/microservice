@@ -51,3 +51,21 @@ resource "aws_ecr_repository" "authentication_server_ecr_repository" {
     Environment = var.project_name
   }
 }
+
+resource "aws_ecr_repository" "saml2_server_ecr_repository" {
+  name = var.saml2_server_repo_name
+
+  tags = {
+    Name        = "${var.project_name}-ecr-saml2-server"
+    Environment = var.project_name
+  }
+}
+
+resource "aws_ecr_repository" "user_service_ecr_repository" {
+  name = var.user_service_repo_name
+
+  tags = {
+    Name        = "${var.project_name}-ecr-user-service"
+    Environment = var.project_name
+  }
+}

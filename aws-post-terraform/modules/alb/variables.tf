@@ -27,3 +27,9 @@ variable "api_gateway_port" {
 
 variable "authentication_server_port" {
 }
+
+variable "saml2_server_port" {
+}
+
+variable "user_service_port" {
+}

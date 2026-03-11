@@ -322,6 +322,14 @@ resource "aws_ecs_task_definition" "config_server_ecs_task_definition" {
           value = tostring(var.authentication_server_port)
         },
         {
+          name  = "SAML2_SERVER_PORT"
+          value = tostring(var.saml2_server_port)
+        },
+        {
+          name  = "USER_SERVICE_PORT"
+          value = tostring(var.user_service_port)
+        },
+        {
           name  = "ZIPKIN_PORT"
           value = tostring(var.zipkin_port)
         }
@@ -389,14 +397,6 @@ resource "aws_ecs_task_definition" "api_gateway_ecs_task_definition" {
         {
           name  = "AWS_ALB_DNS"
           value = tostring(var.alb_dns)
-        },
-        {
-          name  = "REGISTRY_SERVICE_PORT"
-          value = tostring(var.registry_service_port)
-        },
-        {
-          name  = "CONFIG_SERVER_PORT"
-          value = tostring(var.config_server_port)
         },
         {
           name  = "API_GATEWAY_PORT"
@@ -473,14 +473,6 @@ resource "aws_ecs_task_definition" "authentication_server_ecs_task_definition" {
           value = tostring(var.alb_dns)
         },
         {
-          name  = "REGISTRY_SERVICE_PORT"
-          value = tostring(var.registry_service_port)
-        },
-        {
-          name  = "CONFIG_SERVER_PORT"
-          value = tostring(var.config_server_port)
-        },
-        {
           name  = "AUTHENTICATION_SERVER_PORT"
           value = tostring(var.authentication_server_port)
         },
@@ -527,6 +519,152 @@ resource "aws_ecs_service" "authentication_server_ecs_service" {
 
   tags = {
     Name        = "${var.project_name}-ecs-service-authentication-server"
+    Environment = var.project_name
+  }
+}
+
+resource "aws_ecs_task_definition" "saml2_server_ecs_task_definition" {
+  family                   = var.saml2_server_name
+  network_mode             = "awsvpc"
+  requires_compatibilities = ["FARGATE"]
+  cpu                      = 1024
+  memory                   = 3072
+  execution_role_arn       = var.ecs_execution_role
+
+  runtime_platform {
+    operating_system_family = "LINUX"
+    cpu_architecture        = "X86_64"
+  }
+
+  container_definitions = jsonencode([
+    {
+      name  = var.saml2_server_name
+      image = var.saml2_server_repository_url
+      environment = [
+        {
+          name  = "AWS_ALB_DNS"
+          value = tostring(var.alb_dns)
+        },
+        {
+          name  = "SAML2_SERVER_PORT"
+          value = tostring(var.saml2_server_port)
+        },
+        {
+          name  = "ZIPKIN_PORT"
+          value = tostring(var.zipkin_port)
+        }
+      ]
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          awslogs-group         = var.cloudwatch_log_group_name
+          awslogs-region        = var.aws_region
+          awslogs-stream-prefix = "ecs"
+        }
+      }
+      portMappings = [{ containerPort = var.saml2_server_port }]
+    }
+  ])
+
+  tags = {
+    Name        = "${var.project_name}-ecs-task-definition-saml2-server"
+    Environment = var.project_name
+  }
+}
+
+resource "aws_ecs_service" "saml2_server_ecs_service" {
+  name            = "${var.project_name}-${var.saml2_server_name}"
+  cluster         = aws_ecs_cluster.ecs_cluster.id
+  task_definition = aws_ecs_task_definition.saml2_server_ecs_task_definition.arn
+  desired_count   = 1
+  launch_type     = "FARGATE"
+
+  network_configuration {
+    subnets         = var.private_subnets
+    security_groups = [var.ecs_sg_id]
+  }
+
+  load_balancer {
+    target_group_arn = var.saml2_server_alb_target_group_arn
+    container_name   = var.saml2_server_name
+    container_port   = var.saml2_server_port
+  }
+
+  tags = {
+    Name        = "${var.project_name}-ecs-service-saml2-server"
+    Environment = var.project_name
+  }
+}
+
+resource "aws_ecs_task_definition" "user_service_ecs_task_definition" {
+  family                   = var.user_service_name
+  network_mode             = "awsvpc"
+  requires_compatibilities = ["FARGATE"]
+  cpu                      = 1024
+  memory                   = 3072
+  execution_role_arn       = var.ecs_execution_role
+
+  runtime_platform {
+    operating_system_family = "LINUX"
+    cpu_architecture        = "X86_64"
+  }
+
+  container_definitions = jsonencode([
+    {
+      name  = var.user_service_name
+      image = var.user_service_repository_url
+      environment = [
+        {
+          name  = "AWS_ALB_DNS"
+          value = tostring(var.alb_dns)
+        },
+        {
+          name  = "USER_SERVICE_PORT"
+          value = tostring(var.user_service_port)
+        },
+        {
+          name  = "ZIPKIN_PORT"
+          value = tostring(var.zipkin_port)
+        }
+      ]
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          awslogs-group         = var.cloudwatch_log_group_name
+          awslogs-region        = var.aws_region
+          awslogs-stream-prefix = "ecs"
+        }
+      }
+      portMappings = [{ containerPort = var.user_service_port }]
+    }
+  ])
+
+  tags = {
+    Name        = "${var.project_name}-ecs-task-definition-user-service"
+    Environment = var.project_name
+  }
+}
+
+resource "aws_ecs_service" "user_service_ecs_service" {
+  name            = "${var.project_name}-${var.user_service_name}"
+  cluster         = aws_ecs_cluster.ecs_cluster.id
+  task_definition = aws_ecs_task_definition.user_service_ecs_task_definition.arn
+  desired_count   = 1
+  launch_type     = "FARGATE"
+
+  network_configuration {
+    subnets         = var.private_subnets
+    security_groups = [var.ecs_sg_id]
+  }
+
+  load_balancer {
+    target_group_arn = var.user_service_alb_target_group_arn
+    container_name   = var.user_service_name
+    container_port   = var.user_service_port
+  }
+
+  tags = {
+    Name        = "${var.project_name}-ecs-service-user-service"
     Environment = var.project_name
   }
 }

@@ -108,3 +108,27 @@ variable "authentication_server_alb_target_group_arn" {
 
 variable "authentication_server_repository_url" {
 }
+
+variable "saml2_server_name" {
+}
+
+variable "saml2_server_port" {
+}
+
+variable "saml2_server_alb_target_group_arn" {
+}
+
+variable "saml2_server_repository_url" {
+}
+
+variable "user_service_name" {
+}
+
+variable "user_service_port" {
+}
+
+variable "user_service_alb_target_group_arn" {
+}
+
+variable "user_service_repository_url" {
+}

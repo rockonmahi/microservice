@@ -161,6 +161,56 @@ resource "aws_lb_target_group" "authentication_server_alb_target_group" {
   }
 }
 
+resource "aws_lb_target_group" "saml2_server_alb_target_group" {
+  name        = "${var.project_name}-alb-tg-saml2-server"
+  port        = var.saml2_server_port
+  protocol    = "HTTP"
+  vpc_id      = var.vpc_id
+  target_type = "ip"
+
+  health_check {
+    enabled             = true
+    path                = "/saml2-server/actuator/health"
+    port                = "traffic-port"
+    protocol            = "HTTP"
+    matcher             = "200"
+    interval            = 60
+    timeout             = 5
+    healthy_threshold   = 2
+    unhealthy_threshold = 2
+  }
+
+  tags = {
+    Name        = "${var.project_name}-alb-tg-saml2-server"
+    Environment = var.project_name
+  }
+}
+
+resource "aws_lb_target_group" "user_service_alb_target_group" {
+  name        = "${var.project_name}-alb-tg-user-service"
+  port        = var.user_service_port
+  protocol    = "HTTP"
+  vpc_id      = var.vpc_id
+  target_type = "ip"
+
+  health_check {
+    enabled             = true
+    path                = "/user_service/actuator/health"
+    port                = "traffic-port"
+    protocol            = "HTTP"
+    matcher             = "200"
+    interval            = 60
+    timeout             = 5
+    healthy_threshold   = 2
+    unhealthy_threshold = 2
+  }
+
+  tags = {
+    Name        = "${var.project_name}-alb-tg-user-service"
+    Environment = var.project_name
+  }
+}
+
 resource "aws_lb_listener" "zipkin_alb_listener" {
   load_balancer_arn = aws_lb.alb.arn
   port              = var.zipkin_port
@@ -253,6 +303,38 @@ resource "aws_lb_listener_rule" "authentication_server_listener_rule" {
   condition {
     path_pattern {
       values = ["/authentication-server", "/authentication-server/*"]
+    }
+  }
+}
+
+resource "aws_lb_listener_rule" "saml2_server_listener_rule" {
+  listener_arn = aws_lb_listener.web_server_alb_listener.arn
+  priority     = 16
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.saml2_server_alb_target_group.arn
+  }
+
+  condition {
+    path_pattern {
+      values = ["/saml2-server", "/saml2-server/*"]
+    }
+  }
+}
+
+resource "aws_lb_listener_rule" "user_service_listener_rule" {
+  listener_arn = aws_lb_listener.web_server_alb_listener.arn
+  priority     = 17
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.user_service_alb_target_group.arn
+  }
+
+  condition {
+    path_pattern {
+      values = ["/user-service", "/user-service/*"]
     }
   }
 }

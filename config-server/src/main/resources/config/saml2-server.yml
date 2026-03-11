@@ -1,7 +1,7 @@
 server:
   servlet:
     context-path: /saml2-server
-  port: 5117
+  port: ${SAML2_SERVER_PORT}
 eureka:
   client:
     serviceUrl:
@@ -9,7 +9,7 @@ eureka:
 management:
   endpoints:
     web:
-      base-path: /saml2-server
+      base-path: /actuator
       exposure:
         include: health
   tracing:

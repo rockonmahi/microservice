@@ -110,6 +110,24 @@ jobs:
           docker build -t $AUTHENTICATION_SERVER_IMAGE_URI .
           docker push $AUTHENTICATION_SERVER_IMAGE_URI
 
+      - name: Build saml2-server Image
+        working-directory: ./saml2-server
+        env:
+          SAML2_SERVER_IMAGE_URI: ${{env.AWS_SAML2_SERVER_ECR_REPO_URL}}:latest
+        run: |
+          mvn clean install -DskipTests
+          docker build -t $SAML2_SERVER_IMAGE_URI .
+          docker push $SAML2_SERVER_IMAGE_URI
+
+      - name: Build user-service Image
+        working-directory: ./user-service
+        env:
+          USER_SERVICE_IMAGE_URI: ${{env.AWS_USER_SERVICE_ECR_REPO_URL}}:latest
+        run: |
+          mvn clean install -DskipTests
+          docker build -t $USER_SERVICE_IMAGE_URI .
+          docker push $USER_SERVICE_IMAGE_URI
+
       - name: Post Terraform
         working-directory: ./aws-post-terraform
         run: |

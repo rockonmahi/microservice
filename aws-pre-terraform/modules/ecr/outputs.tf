@@ -21,3 +21,11 @@ output "api_gateway_ecr_repository_url" {
 output "authentication_server_ecr_repository_url" {
   value = aws_ecr_repository.authentication_server_ecr_repository.repository_url
 }
+
+output "saml2_server_ecr_repository_url" {
+  value = aws_ecr_repository.saml2_server_ecr_repository.repository_url
+}
+
+output "user_service_ecr_repository_url" {
+  value = aws_ecr_repository.user_service_ecr_repository.repository_url
+}

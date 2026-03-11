@@ -18,3 +18,9 @@ variable "api_gateway_repo_name" {
 
 variable "authentication_server_repo_name" {
 }
+
+variable "saml2_server_repo_name" {
+}
+
+variable "user_service_repo_name" {
+}

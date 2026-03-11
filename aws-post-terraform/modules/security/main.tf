@@ -75,6 +75,20 @@ resource "aws_security_group" "ecs_sg" {
     protocol        = "tcp"
     security_groups = [aws_security_group.alb_sg.id]
   }
+  ingress {
+    description     = "saml2-server"
+    from_port       = var.saml2_server_port
+    to_port         = var.saml2_server_port
+    protocol        = "tcp"
+    security_groups = [aws_security_group.alb_sg.id]
+  }
+  ingress {
+    description     = "user-service"
+    from_port       = var.user_service_port
+    to_port         = var.user_service_port
+    protocol        = "tcp"
+    security_groups = [aws_security_group.alb_sg.id]
+  }
   egress {
     from_port   = 0
     to_port     = 0

@@ -33,3 +33,11 @@ output "api_gateway_port" {
 output "authentication_server_port" {
   value = var.authentication_server_port
 }
+
+output "saml2_server_port" {
+  value = var.saml2_server_port
+}
+
+output "user_service_port" {
+  value = var.user_service_port
+}

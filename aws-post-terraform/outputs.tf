@@ -26,6 +26,14 @@ output "authentication_server_ecr_repository_url" {
   value = module.ecr.authentication_server_ecr_repository_url
 }
 
+output "saml2_server_ecr_repository_url" {
+  value = module.ecr.saml2_server_ecr_repository_url
+}
+
+output "user_service_ecr_repository_url" {
+  value = module.ecr.user_service_ecr_repository_url
+}
+
 output "rds_endpoint" {
   value = module.rds.rds_endpoint
 }

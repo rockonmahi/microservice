@@ -15,6 +15,8 @@ module "security" {
   config_server_port         = module.ecs.config_server_port
   api_gateway_port           = module.ecs.api_gateway_port
   authentication_server_port = module.ecs.authentication_server_port
+  saml2_server_port          = module.ecs.saml2_server_port
+  user_service_port          = module.ecs.user_service_port
 }
 
 module "alb" {
@@ -29,6 +31,8 @@ module "alb" {
   config_server_port         = module.ecs.config_server_port
   api_gateway_port           = module.ecs.api_gateway_port
   authentication_server_port = module.ecs.authentication_server_port
+  saml2_server_port          = module.ecs.saml2_server_port
+  user_service_port          = module.ecs.user_service_port
 }
 
 module "cloudwatch" {
@@ -61,6 +65,8 @@ module "ecr" {
   config_server_repo_name         = "${var.project_name}-config-server-repo"
   api_gateway_repo_name           = "${var.project_name}-api-gateway-repo"
   authentication_server_repo_name = "${var.project_name}-authentication-server-repo"
+  saml2_server_repo_name          = "${var.project_name}-saml2-server-repo"
+  user_service_repo_name          = "${var.project_name}-user_service-repo"
 }
 
 module "efs" {
@@ -109,4 +115,12 @@ module "ecs" {
   authentication_server_name                 = "authentication-server"
   authentication_server_alb_target_group_arn = module.alb.authentication_server_alb_target_group_arn
   authentication_server_repository_url       = module.ecr.authentication_server_ecr_repository_url
+  saml2_server_port                          = 5116
+  saml2_server_name                          = "saml2-server"
+  saml2_server_alb_target_group_arn          = module.alb.saml2_server_alb_target_group_arn
+  saml2_server_repository_url                = module.ecr.saml2_server_ecr_repository_url
+  user_service_port                          = 5117
+  user_service_name                          = "user-service"
+  user_service_alb_target_group_arn          = module.alb.user_service_alb_target_group_arn
+  user_service_repository_url                = module.ecr.user_service_ecr_repository_url
 }
