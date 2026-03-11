@@ -52,6 +52,8 @@ jobs:
           echo "AWS_CONFIG_SERVER_ECR_REPO_URL=$(terraform output -raw config_server_ecr_repository_url)" >> $GITHUB_ENV
           echo "AWS_API_GATEWAY_ECR_REPO_URL=$(terraform output -raw api_gateway_ecr_repository_url)" >> $GITHUB_ENV
           echo "AWS_AUTHENTICATION_SERVER_ECR_REPO_URL=$(terraform output -raw authentication_server_ecr_repository_url)" >> $GITHUB_ENV
+          echo "AWS_SAML2_SERVER_ECR_REPO_URL=$(terraform output -raw saml2_server_ecr_repository_url)" >> $GITHUB_ENV
+          echo "AWS_USER_SERVICE_ECR_REPO_URL=$(terraform output -raw user_service_ecr_repository_url)" >> $GITHUB_ENV
 
       - name: Login to ECR
         uses: aws-actions/amazon-ecr-login@v2

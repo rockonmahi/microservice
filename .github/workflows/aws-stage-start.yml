@@ -1,4 +1,4 @@
-name: AWS Stage Start Server
+name: AWS Dev Start Server
 
 on:
   push:
@@ -34,10 +34,10 @@ jobs:
       - name: Pre Terraform
         working-directory: ./aws-pre-terraform
         run: |
-          terraform init -backend-config="bucket=stage-microservice-terraform-state"
+          terraform init -backend-config="bucket=dev-microservice-terraform-state"
           terraform validate
           terraform plan
-          terraform apply -var="project_name=stage" -auto-approve
+          terraform apply -var="project_name=dev" -auto-approve
           
           echo "AWS_ZIPKIN_ECR_REPO_URL=$(terraform output -raw zipkin_ecr_repository_url)" >> $GITHUB_ENV
           echo "AWS_WEB_SERVER_ECR_REPO_URL=$(terraform output -raw web_server_ecr_repository_url)" >> $GITHUB_ENV
@@ -126,7 +126,7 @@ jobs:
       - name: Post Terraform
         working-directory: ./aws-post-terraform
         run: |
-          terraform init -backend-config="bucket=stage-microservice-terraform-state"
+          terraform init -backend-config="bucket=dev-microservice-terraform-state"
           terraform validate
           terraform plan
-          terraform apply -var="project_name=stage" -auto-approve
+          terraform apply -var="project_name=dev" -auto-approve
