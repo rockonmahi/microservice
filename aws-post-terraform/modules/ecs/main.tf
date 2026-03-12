@@ -306,6 +306,10 @@ resource "aws_ecs_task_definition" "config_server_ecs_task_definition" {
           value = tostring(var.alb_dns)
         },
         {
+          name  = "MYSQL_DB_ENDPOINT"
+          value = tostring(var.mysql_db_endpoint)
+        },
+        {
           name  = "REGISTRY_SERVICE_PORT"
           value = tostring(var.registry_service_port)
         },
@@ -617,6 +621,14 @@ resource "aws_ecs_task_definition" "user_service_ecs_task_definition" {
         {
           name  = "AWS_ALB_DNS"
           value = tostring(var.alb_dns)
+        },
+        {
+          name  = "MYSQL_DB_ENDPOINT"
+          value = tostring(var.mysql_db_endpoint)
+        },
+        {
+          name  = "MYSQL_DB_PORT"
+          value = tostring(var.mysql_db_port)
         },
         {
           name  = "USER_SERVICE_PORT"
