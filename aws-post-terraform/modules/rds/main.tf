@@ -17,9 +17,9 @@ resource "aws_db_instance" "mysql" {
   allocated_storage       = 20
   max_allocated_storage   = 100
   storage_type            = "gp3"
-  db_name                 = var.db_name
-  username                = var.db_username
-  password                = var.db_password
+  db_name                 = var.mysql_db_name
+  username                = var.mysql_db_username
+  password                = var.mysql_db_password
   db_subnet_group_name    = aws_db_subnet_group.mysql_subnet_group.name
   vpc_security_group_ids  = [var.database_sg_id]
   multi_az                = false
