@@ -195,7 +195,7 @@ resource "aws_lb_target_group" "user_service_alb_target_group" {
 
   health_check {
     enabled             = true
-    path                = "/user_service/actuator/health"
+    path                = "/user-service/actuator/health"
     port                = "traffic-port"
     protocol            = "HTTP"
     matcher             = "200"
