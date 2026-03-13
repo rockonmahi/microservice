@@ -87,6 +87,7 @@ module "ecs" {
   ecs_sg_id                                  = module.security.ecs_sg_id
   ecs_execution_role                         = module.iam.ecs_execution_role
   mysql_db_endpoint                          = module.rds.rds_endpoint
+  mysql_db_port                              = module.rds.mysql_db_port
   mysql_db_name                              = module.rds.mysql_db_name
   mysql_db_username                          = module.rds.mysql_db_username
   mysql_db_password                          = module.rds.mysql_db_password
