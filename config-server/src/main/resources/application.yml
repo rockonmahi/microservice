@@ -10,7 +10,7 @@ spring:
 management:
   endpoints:
     web:
-      base-path: /config-server
+      base-path: /actuator
       exposure:
         include: health
   tracing:

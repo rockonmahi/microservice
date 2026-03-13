@@ -306,36 +306,8 @@ resource "aws_ecs_task_definition" "config_server_ecs_task_definition" {
           value = tostring(var.alb_dns)
         },
         {
-          name  = "MYSQL_DB_ENDPOINT"
-          value = tostring(var.mysql_db_endpoint)
-        },
-        {
-          name  = "REGISTRY_SERVICE_PORT"
-          value = tostring(var.registry_service_port)
-        },
-        {
           name  = "CONFIG_SERVER_PORT"
           value = tostring(var.config_server_port)
-        },
-        {
-          name  = "API_GATEWAY_PORT"
-          value = tostring(var.api_gateway_port)
-        },
-        {
-          name  = "AUTHENTICATION_SERVER_PORT"
-          value = tostring(var.authentication_server_port)
-        },
-        {
-          name  = "SAML2_SERVER_PORT"
-          value = tostring(var.saml2_server_port)
-        },
-        {
-          name  = "USER_SERVICE_PORT"
-          value = tostring(var.user_service_port)
-        },
-        {
-          name  = "ZIPKIN_PORT"
-          value = tostring(var.zipkin_port)
         }
       ]
       logConfiguration = {
