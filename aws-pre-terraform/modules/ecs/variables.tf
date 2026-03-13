@@ -22,6 +22,12 @@ variable "private_subnets" {
 variable "ecs_sg_id" {
 }
 
+variable "mysql_db_endpoint" {
+}
+
+variable "mysql_db_port" {
+}
+
 variable "mongo_db_username" {
 }
 

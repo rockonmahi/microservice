@@ -34,10 +34,6 @@ output "user_service_ecr_repository_url" {
   value = module.ecr.user_service_ecr_repository_url
 }
 
-output "rds_endpoint" {
-  value = module.rds.rds_endpoint
-}
-
 /*
 output "eks_cluster_name" {
   value = module.eks.cluster_name

@@ -86,6 +86,8 @@ module "ecs" {
   private_subnets                            = [module.vpc.private_subnet_1a_id, module.vpc.private_subnet_1b_id]
   ecs_sg_id                                  = module.security.ecs_sg_id
   ecs_execution_role                         = module.iam.ecs_execution_role
+  mysql_db_endpoint                          = module.rds.rds_endpoint
+  mysql_db_port                              = module.rds.mysql_db_port
   mongo_db_username                          = "mongouser"
   mongo_db_password                          = "mongopass"
   mongo_db_port                              = 27017
