@@ -13,7 +13,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 public class SecurityConfig {
-	
+
 	@Autowired
 	private Saml2Filter saml2Filter;
 
@@ -30,7 +30,7 @@ public class SecurityConfig {
 			.addFilterBefore(saml2Filter, Saml2WebSsoAuthenticationFilter.class)
 			.authorizeHttpRequests(authorize ->
 				authorize
-					.requestMatchers("/","/favicon.ico","/css/**","/error").permitAll()
+					.requestMatchers("/actuator/health").permitAll()
 					.requestMatchers( "/carsonline", "/buy/**", "/user")
 					.authenticated());
 		return http.build();
