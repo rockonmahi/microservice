@@ -46,14 +46,14 @@ module "iam" {
 }
 
 module "rds" {
-  source         = "./modules/rds"
-  project_name   = var.project_name
-  database_sg_id = module.security.database_sg_id
-  public_subnets = [module.vpc.public_subnet_1a_id, module.vpc.public_subnet_1b_id]
-  mysql_db_port  = 3306
-  db_name        = "login"
-  db_username    = "testuser"
-  db_password    = "testpass"
+  source               = "./modules/rds"
+  project_name         = var.project_name
+  database_sg_id       = module.security.database_sg_id
+  public_subnets       = [module.vpc.public_subnet_1a_id, module.vpc.public_subnet_1b_id]
+  mysql_db_port        = 3306
+  mysql_db_name        = "login"
+  mysql_db_username    = "testuser"
+  mysql_db_password    = "testpass"
 }
 
 module "ecr" {
@@ -87,7 +87,9 @@ module "ecs" {
   ecs_sg_id                                  = module.security.ecs_sg_id
   ecs_execution_role                         = module.iam.ecs_execution_role
   mysql_db_endpoint                          = module.rds.rds_endpoint
-  mysql_db_port                              = module.rds.mysql_db_port
+  mysql_db_name                              = module.rds.mysql_db_name
+  mysql_db_username                          = module.rds.mysql_db_username
+  mysql_db_password                          = module.rds.mysql_db_password
   mongo_db_username                          = "mongouser"
   mongo_db_password                          = "mongopass"
   mongo_db_port                              = 27017

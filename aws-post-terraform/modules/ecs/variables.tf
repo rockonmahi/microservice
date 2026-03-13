@@ -28,6 +28,15 @@ variable "mysql_db_endpoint" {
 variable "mysql_db_port" {
 }
 
+variable "mysql_db_name" {
+}
+
+variable "mysql_db_username" {
+}
+
+variable "mysql_db_password" {
+}
+
 variable "mongo_db_username" {
 }
 

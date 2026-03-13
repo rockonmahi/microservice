@@ -6,10 +6,14 @@ output "mysql_db_port" {
   value = var.mysql_db_port
 }
 
-output "db_username" {
-  value = var.db_username
+output "mysql_db_name" {
+  value = var.mysql_db_name
 }
 
-output "db_password" {
-  value = var.db_password
+output "mysql_db_username" {
+  value = var.mysql_db_username
+}
+
+output "mysql_db_password" {
+  value = var.mysql_db_password
 }

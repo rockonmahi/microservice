@@ -10,12 +10,12 @@ variable "public_subnets" {
 variable "mysql_db_port" {
 }
 
-variable "db_name" {
+variable "mysql_db_name" {
 }
 
-variable "db_username" {
+variable "mysql_db_username" {
 }
 
-variable "db_password" {
+variable "mysql_db_password" {
 }
 

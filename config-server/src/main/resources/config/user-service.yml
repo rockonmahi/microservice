@@ -9,9 +9,9 @@ spring:
     config:
       enabled: false
   datasource:
-    url: jdbc:mysql://${MYSQL_DB_ENDPOINT}/login?useSSL=false&useUnicode=yes&characterEncoding=UTF-8&characterSetResults=UTF-8
-    username: root
-    password: java1234
+    url: jdbc:mysql://${MYSQL_DB_ENDPOINT}/${MYSQL_DB_NAME}?useSSL=false&useUnicode=yes&characterEncoding=UTF-8&characterSetResults=UTF-8
+    username: ${MYSQL_DB_USERNAME}
+    password: ${MYSQL_DB_PASSWORD}
   jpa:
     show-sql: true
     hibernate:
