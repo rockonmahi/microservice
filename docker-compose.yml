@@ -56,10 +56,10 @@ services:
     networks:
       - escola-network
           #ipv4_address: 172.51.1.5
-  user-service:
-    container_name: user-service
+  saml2-server:
+    container_name: saml2-server
     build:
-      context: ./user-service
+      context: ./saml2-server
     restart: unless-stopped
     ports:
       - "5116:5116"
@@ -68,10 +68,10 @@ services:
     networks:
       - escola-network
           #ipv4_address: 172.51.1.6
-  saml2-server:
-    container_name: saml2-server
+  user-service:
+    container_name: user-service
     build:
-      context: ./saml2-server
+      context: ./user-service
     restart: unless-stopped
     ports:
       - "5117:5117"
@@ -79,7 +79,7 @@ services:
       - config-server
     networks:
       - escola-network
-          #ipv4_address: 172.51.1.7
+      #ipv4_address: 172.51.1.7
   event-service:
     container_name: event-service
     build:
