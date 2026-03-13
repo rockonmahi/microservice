@@ -59,6 +59,7 @@ public class SecurityConfig {
                 .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
                 .requiresChannel(rcc -> rcc.anyRequest().requiresInsecure())
                 .authorizeHttpRequests((requests) -> requests
+                        .requestMatchers("/actuator/health").permitAll()
                         .requestMatchers("/user/register").permitAll()
                         .requestMatchers("/user/**").authenticated());
 
