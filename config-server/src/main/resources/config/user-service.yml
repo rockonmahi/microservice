@@ -9,7 +9,7 @@ spring:
     config:
       enabled: false
   datasource:
-    url: jdbc:mysql://${MYSQL_DB_ENDPOINT}:${MYSQL_DB_PORT}/login?useSSL=false&useUnicode=yes&characterEncoding=UTF-8&characterSetResults=UTF-8
+    url: jdbc:mysql://${MYSQL_DB_ENDPOINT}/login?useSSL=false&useUnicode=yes&characterEncoding=UTF-8&characterSetResults=UTF-8
     username: root
     password: java1234
   jpa:
