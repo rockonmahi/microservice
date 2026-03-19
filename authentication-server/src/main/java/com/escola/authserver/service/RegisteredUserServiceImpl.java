@@ -7,19 +7,45 @@ import com.escola.authserver.entity.RegisteredUsers;
 import com.escola.authserver.form.UserLoginForm;
 import com.escola.authserver.repository.RegisteredUsersRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService {
+public class RegisteredUserServiceImpl implements RegisteredUserService {
 
 	private final PasswordEncoder passwordEncoder;
 
 	private final RegisteredUsersRepository userRepository;
+
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+		List<RegisteredUsers> userList = userRepository.findByUserNameAndAccountLock(username,0);
+		UserLoginDto userLoginDto= new UserLoginDto();
+		if (userList.isEmpty()) {
+			String userId = saveLoginUser();
+			RegisteredUsers user = userRepository.findById(userId).get();
+			userLoginDto.setUsername(user.getUserName());
+			userLoginDto.setPassword(user.getPassword());
+		}else{
+			RegisteredUsers user=userList.get(0);
+			userLoginDto.setUsername(user.getUserName());
+			userLoginDto.setPassword(user.getPassword());
+		}
+		List<GrantedAuthority> authorities = Stream.of("openid","email","phone").map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+		return new User(userLoginDto.getUsername(), userLoginDto.getPassword(), authorities);
+	}
 
 	@Override
 	public String saveLoginUser() {
@@ -47,25 +73,5 @@ public class UserServiceImpl implements UserService {
 		}
 
 		return user.getId();
-	}
-
-	@Override
-	public UserLoginDto getUserDetails(UserLoginForm userLogin) {
-		List<RegisteredUsers> userList = userRepository.findByUserNameAndAccountLock(userLogin.getUsername(),0);
-		UserLoginDto userLoginDto= new UserLoginDto();
-		List<String> authorities= Arrays.asList("openid","email","phone");
-		if (userList.isEmpty()) {
-			String userId = saveLoginUser();
-			RegisteredUsers user = userRepository.findById(userId).get();
-			userLoginDto.setUsername(user.getUserName());
-			userLoginDto.setPassword(user.getPassword());
-			userLoginDto.setAuthorities(authorities);
-		}else{
-			RegisteredUsers user=userList.get(0);
-			userLoginDto.setUsername(user.getUserName());
-			userLoginDto.setPassword(user.getPassword());
-			userLoginDto.setAuthorities(authorities);
-		}
-		return userLoginDto;
 	}
 }

@@ -1,4 +1,4 @@
-package com.escola.authserver.repository.impl;
+package com.escola.authserver.service;
 
 import com.escola.authserver.entity.RegisteredClients;
 import com.escola.authserver.repository.RegisteredClientsRepository;
@@ -15,12 +15,11 @@ import org.springframework.stereotype.Component;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
-public class RegisteredClientRepositoryImpl implements org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository {
+public class RegisteredClientServiceImpl implements RegisteredClientService {
 
     private final RegisteredClientsRepository registeredClientsRepository;
 
@@ -82,7 +81,8 @@ public class RegisteredClientRepositoryImpl implements org.springframework.secur
                         .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
                         .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                         .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-                        .redirectUri("http://localhost:4200/callback")
+                        //.redirectUri("http://localhost:4200/callback")
+                        .redirectUri("https://oauth.pstmn.io/v1/callback")
                         .scopes(scopes -> scopes.addAll(
                                 List.of(OidcScopes.OPENID, OidcScopes.EMAIL, OidcScopes.PHONE)))
                         .tokenSettings(TokenSettings.builder()
