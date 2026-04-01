@@ -1,3 +1,13 @@
+resource "aws_service_discovery_private_dns_namespace" "ecs_namespace" {
+  name = "${var.project_name}.local"
+  vpc  = var.vpc_id
+
+  tags = {
+    Name        = "${var.project_name}-ecs-namespace"
+    Environment = var.project_name
+  }
+}
+
 resource "aws_ecs_cluster" "ecs_cluster" {
   name = var.cluster_name
 
@@ -68,6 +78,25 @@ resource "aws_ecs_task_definition" "mongo_db_ecs_task_definition" {
   ])
 }
 
+resource "aws_service_discovery_service" "mongo_discovery_service" {
+  name = "mongo"
+
+  dns_config {
+    namespace_id = aws_service_discovery_private_dns_namespace.ecs_namespace.id
+
+    dns_records {
+      ttl  = 10
+      type = "A"
+    }
+
+    routing_policy = "MULTIVALUE"
+  }
+
+  health_check_custom_config {
+    failure_threshold = 1
+  }
+}
+
 resource "aws_ecs_service" "mongo_ecs_service" {
   name            = "${var.project_name}-${var.mongo_db_name}"
   cluster         = aws_ecs_cluster.ecs_cluster.id
@@ -78,6 +107,10 @@ resource "aws_ecs_service" "mongo_ecs_service" {
   network_configuration {
     subnets         = var.private_subnets
     security_groups = [var.ecs_sg_id]
+  }
+
+  service_registries {
+    registry_arn = aws_service_discovery_service.mongo_discovery_service.arn
   }
 
   tags = {
@@ -455,6 +488,22 @@ resource "aws_ecs_task_definition" "authentication_server_ecs_task_definition" {
         {
           name  = "ZIPKIN_PORT"
           value = tostring(var.zipkin_port)
+        },
+        {
+          name  = "MONGO_DB_HOST"
+          value = "mongo.${var.project_name}.local"
+        },
+        {
+          name  = "MONGO_DB_PORT"
+          value = tostring(var.mongo_db_port)
+        },
+        {
+          name  = "MONGO_DB_USERNAME"
+          value = var.mongo_db_username
+        },
+        {
+          name  = "MONGO_DB_PASSWORD"
+          value = var.mongo_db_password
         }
       ]
       logConfiguration = {
