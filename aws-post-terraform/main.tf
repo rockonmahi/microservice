@@ -128,4 +128,5 @@ module "ecs" {
   user_service_name                          = "user-service"
   user_service_alb_target_group_arn          = module.alb.user_service_alb_target_group_arn
   user_service_repository_url                = module.ecr.user_service_ecr_repository_url
+  vpc_id                                     = module.vpc.vpc_id
 }
