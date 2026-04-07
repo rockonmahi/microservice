@@ -85,6 +85,7 @@ module "ecs" {
   cloudwatch_log_group_name                  = module.cloudwatch.cloudwatch_log_group_name
   private_subnets                            = [module.vpc.private_subnet_1a_id, module.vpc.private_subnet_1b_id]
   ecs_sg_id                                  = module.security.ecs_sg_id
+  database_sg_id                             = module.security.database_sg_id
   ecs_execution_role                         = module.iam.ecs_execution_role
   mysql_db_endpoint                          = module.rds.rds_endpoint
   mysql_db_port                              = module.rds.mysql_db_port
