@@ -4,6 +4,9 @@ variable "project_name" {
 variable "aws_region" {
 }
 
+variable "vpc_id" {
+}
+
 variable "alb_dns" {
 }
 
@@ -20,6 +23,9 @@ variable "private_subnets" {
 }
 
 variable "ecs_sg_id" {
+}
+
+variable "database_sg_id" {
 }
 
 variable "mysql_db_endpoint" {

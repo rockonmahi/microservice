@@ -458,7 +458,6 @@ resource "aws_ecs_service" "api_gateway_ecs_service" {
   }
 }
 
-
 resource "aws_ecs_task_definition" "authentication_server_ecs_task_definition" {
   family                   = var.authentication_server_name
   network_mode             = "awsvpc"

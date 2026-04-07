@@ -81,6 +81,7 @@ module "ecs" {
   project_name                               = var.project_name
   aws_region                                 = var.aws_region
   cluster_name                               = "${var.project_name}-ecs-cluster"
+  vpc_id                                     = module.vpc.vpc_id
   alb_dns                                    = module.alb.alb_dns
   cloudwatch_log_group_name                  = module.cloudwatch.cloudwatch_log_group_name
   private_subnets                            = [module.vpc.private_subnet_1a_id, module.vpc.private_subnet_1b_id]
@@ -92,8 +93,8 @@ module "ecs" {
   mysql_db_name                              = module.rds.mysql_db_name
   mysql_db_username                          = module.rds.mysql_db_username
   mysql_db_password                          = module.rds.mysql_db_password
-  mongo_db_username                          = "mongouser"
-  mongo_db_password                          = "mongopass"
+  mongo_db_username                          = "testuser"
+  mongo_db_password                          = "testpass"
   mongo_db_port                              = 27017
   mongo_db_name                              = "mongo-db"
   mongo_db_efs_file_system_id                = module.efs.mongo_db_efs_file_system_id
@@ -129,5 +130,4 @@ module "ecs" {
   user_service_name                          = "user-service"
   user_service_alb_target_group_arn          = module.alb.user_service_alb_target_group_arn
   user_service_repository_url                = module.ecr.user_service_ecr_repository_url
-  vpc_id                                     = module.vpc.vpc_id
 }
