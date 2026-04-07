@@ -26,7 +26,6 @@ variable "ecs_sg_id" {
 }
 
 variable "database_sg_id" {
-  description = "Attached to the MongoDB ECS service so database_sg rules (Mongo from ecs_sg) apply to the task ENI."
 }
 
 variable "mysql_db_endpoint" {

@@ -106,7 +106,7 @@ resource "aws_ecs_service" "mongo_ecs_service" {
 
   network_configuration {
     subnets         = var.private_subnets
-    security_groups = [var.ecs_sg_id, var.database_sg_id]
+    security_groups = [var.database_sg_id]
   }
 
   service_registries {
