@@ -49,7 +49,7 @@ module "rds" {
   source               = "./modules/rds"
   project_name         = var.project_name
   database_sg_id       = module.security.database_sg_id
-  public_subnets       = [module.vpc.public_subnet_1a_id, module.vpc.public_subnet_1b_id]
+  private_subnets      = [module.vpc.private_subnet_1a_id, module.vpc.private_subnet_1b_id]
   mysql_db_port        = 3306
   mysql_db_name        = "login"
   mysql_db_username    = "testuser"
