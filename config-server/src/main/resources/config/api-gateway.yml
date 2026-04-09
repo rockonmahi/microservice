@@ -22,21 +22,33 @@ logging:
   level:
     org:
       springframework:
-        security: TRACE
+        security: "TRACE"
 spring:
+  application:
+    name: api-gateway
   cloud:
+    config:
+      enabled: false
     gateway:
       routes:
         - id: authentication-server
           uri: lb://authentication-server
           predicates:
-            - Path=/oauth2/**
-            - Path=/auth/**
+            - Path=/authentication-server/**,/oauth2/**,/auth/**,/api-gateway/authentication-server/**,/api-gateway/oauth2/**,/api-gateway/auth/**
+          filters:
+            - RewritePath=^/api-gateway/(?<p>.*)$, /${p}
+            - RewritePath=^/(?<p>oauth2/.*|auth/.*)$, /authentication-server/${p}
         - id: user-service
           uri: lb://user-service
           predicates:
-            - Path=/user/**
+            - Path=/user-service/**,/user/**,/payments/**,/api-gateway/user-service/**,/api-gateway/user/**,/api-gateway/payments/**
+          filters:
+            - RewritePath=^/api-gateway/(?<p>.*)$, /${p}
+            - RewritePath=^/(?<p>user/.*|payments/.*)$, /user-service/${p}
         - id: saml2-server
           uri: lb://saml2-server
           predicates:
-            - Path=/saml/**
+            - Path=/saml2-server/**,/saml/**,/api-gateway/saml2-server/**,/api-gateway/saml/**
+          filters:
+            - RewritePath=^/api-gateway/(?<p>.*)$, /${p}
+            - RewritePath=^/(?<p>saml/.*)$, /saml2-server/${p}
