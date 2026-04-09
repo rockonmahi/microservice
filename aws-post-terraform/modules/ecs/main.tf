@@ -643,8 +643,12 @@ resource "aws_ecs_task_definition" "user_service_ecs_task_definition" {
           value = tostring(var.alb_dns)
         },
         {
-          name  = "MYSQL_DB_ENDPOINT"
+          name  = "MYSQL_DB_HOST"
           value = tostring(var.mysql_db_endpoint)
+        },
+        {
+          name  = "MYSQL_DB_PORT"
+          value = tostring(var.mysql_db_port)
         },
         {
           name  = "MYSQL_DB_USERNAME"
