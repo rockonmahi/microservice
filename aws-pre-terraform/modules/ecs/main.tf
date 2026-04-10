@@ -1,3 +1,13 @@
+resource "aws_service_discovery_private_dns_namespace" "ecs_namespace" {
+  name = "${var.project_name}.local"
+  vpc  = var.vpc_id
+
+  tags = {
+    Name        = "${var.project_name}-ecs-namespace"
+    Environment = var.project_name
+  }
+}
+
 resource "aws_ecs_cluster" "ecs_cluster" {
   name = var.cluster_name
 
