@@ -113,14 +113,13 @@ resource "aws_security_group" "database_sg" {
     to_port         = var.mongo_db_port
     protocol        = "tcp"
     security_groups = [aws_security_group.ecs_sg.id]
-    #cidr_blocks = ["0.0.0.0/0"]
   }
   ingress {
     description     = "EFS"
     from_port       = 2049
     to_port         = 2049
     protocol        = "tcp"
-    security_groups = [aws_security_group.ecs_sg.id]
+    security_groups = [aws_security_group.ecs_sg.id, aws_security_group.database_sg.id]
   }
   ingress {
     description     = "MySQL"
