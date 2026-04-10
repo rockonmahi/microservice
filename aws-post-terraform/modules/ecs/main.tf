@@ -77,7 +77,7 @@ resource "aws_ecs_task_definition" "mongo_db_ecs_task_definition" {
           value = var.mongo_db_password
         },
         {
-          name = "MONGO_DB_NAME",
+          name = "MONGO_INITDB_DATABASE",
           value = var.mongo_db_name
         }
       ]
