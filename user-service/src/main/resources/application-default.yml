@@ -10,8 +10,8 @@ spring:
       enabled: false
   datasource:
     url: jdbc:mysql://localhost:3306/practice
-    username: root
-    password: java1234
+    username: testuser
+    password: testpass
   jpa:
     show-sql: true
     hibernate:

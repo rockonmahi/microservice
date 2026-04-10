@@ -23,11 +23,11 @@ spring:
     oauth2:
       resource-server:
         jwt:
-          jwk-set-uri: "http://${AWS_ALB_DNS}/authentication-server/oauth2/jwks"
+          jwk-set-uri: http://${AWS_ALB_DNS}/authentication-server/oauth2/jwks
         opaque:
-          introspection-uri: "http://${AWS_ALB_DNS}/authentication-server/oauth2/introspect"
-          introspection-client-id: "clientCredentialsReference"
-          introspection-client-secret: "c1BK9Bg2REeydBbvUoUeKCbD2bvJzXGj"
+          introspection-uri: http://${AWS_ALB_DNS}/authentication-server/oauth2/introspect
+          introspection-client-id: clientCredentialsReference
+          introspection-client-secret: c1BK9Bg2REeydBbvUoUeKCbD2bvJzXGj
 eureka:
   client:
     serviceUrl:
@@ -38,9 +38,6 @@ management:
       base-path: /actuator
       exposure:
         include: health
-  tracing:
-    sampling:
-      probability: 1.0
   zipkin:
     tracing:
       endpoint: http://${AWS_ALB_DNS}:${ZIPKIN_PORT}/api/v2/spans
