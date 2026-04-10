@@ -512,6 +512,10 @@ resource "aws_ecs_task_definition" "authentication_server_ecs_task_definition" {
         {
           name  = "MONGO_DB_PASSWORD"
           value = var.mongo_db_password
+        },
+        {
+          name  = "MONGO_DB_NAME"
+          value = var.mongo_db_name
         }
       ]
       logConfiguration = {
