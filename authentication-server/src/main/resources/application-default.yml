@@ -10,7 +10,7 @@ spring:
       enabled: false
   data:
     mongodb:
-      uri: mongodb://testuser:testpass@localhost:27017/login?authSource=admin
+      uri: mongodb://testuser:testpass@localhost:27017/practice?authSource=admin
 eureka:
   client:
     serviceUrl:

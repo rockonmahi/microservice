@@ -52,6 +52,9 @@ variable "mongo_db_password" {
 variable "mongo_db_name" {
 }
 
+variable "mongo_db_family" {
+}
+
 variable "mongo_db_port" {
 }
 

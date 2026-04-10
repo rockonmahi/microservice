@@ -51,7 +51,7 @@ module "rds" {
   database_sg_id       = module.security.database_sg_id
   private_subnets      = [module.vpc.private_subnet_1a_id, module.vpc.private_subnet_1b_id]
   mysql_db_port        = 3306
-  mysql_db_name        = "login"
+  mysql_db_name        = "practice"
   mysql_db_username    = "testuser"
   mysql_db_password    = "testpass"
 }
@@ -96,7 +96,8 @@ module "ecs" {
   mongo_db_username                          = "testuser"
   mongo_db_password                          = "testpass"
   mongo_db_port                              = 27017
-  mongo_db_name                              = "mongo-db"
+  mongo_db_name                              = "practice"
+  mongo_db_family                            = "mongo-db-family"
   mongo_db_efs_file_system_id                = module.efs.mongo_db_efs_file_system_id
   zipkin_port                                = 9411
   zipkin_name                                = "zipkin"

@@ -9,7 +9,7 @@ spring:
     config:
       enabled: false
   datasource:
-    url: jdbc:mysql://localhost:3306/login
+    url: jdbc:mysql://localhost:3306/practice
     username: root
     password: java1234
   jpa:

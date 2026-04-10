@@ -28,13 +28,12 @@ resource "aws_ecs_cluster_capacity_providers" "ecs_cluster_capacity_providers" {
 }
 
 resource "aws_ecs_task_definition" "mongo_db_ecs_task_definition" {
-  family                   = var.mongo_db_name
+  family                   = var.mongo_db_family
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = 1024
   memory                   = 3072
   execution_role_arn       = var.ecs_execution_role
-  #  task_role_arn      = aws_iam_role.ecs_task_role.arn
 
   runtime_platform {
     operating_system_family = "LINUX"
@@ -69,8 +68,18 @@ resource "aws_ecs_task_definition" "mongo_db_ecs_task_definition" {
       ]
 
       environment = [
-        { name = "MONGO_INITDB_ROOT_USERNAME", value = var.mongo_db_username },
-        { name = "MONGO_INITDB_ROOT_PASSWORD", value = var.mongo_db_password }
+        {
+          name = "MONGO_INITDB_ROOT_USERNAME",
+          value = var.mongo_db_username
+        },
+        {
+          name = "MONGO_INITDB_ROOT_PASSWORD",
+          value = var.mongo_db_password
+        },
+        {
+          name = "MONGO_DB_NAME",
+          value = var.mongo_db_name
+        }
       ]
 
       essential = true
