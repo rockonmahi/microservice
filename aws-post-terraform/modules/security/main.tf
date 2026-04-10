@@ -136,8 +136,8 @@ resource "aws_security_group" "database_sg" {
 }
 
 resource "aws_security_group" "efs_sg" {
-  name        = "${var.project_name}-database-sg"
-  description = "${var.project_name} security group for database"
+  name        = "${var.project_name}-efs-sg"
+  description = "${var.project_name} security group for efs"
   vpc_id      = var.vpc_id
 
   ingress {
