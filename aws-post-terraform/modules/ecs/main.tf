@@ -107,7 +107,7 @@ resource "aws_service_discovery_service" "mongo_discovery_service" {
 }
 
 resource "aws_ecs_service" "mongo_ecs_service" {
-  name            = "${var.project_name}-${var.mongo_db_name}"
+  name            = "${var.project_name}-${var.mongo_db}"
   cluster         = aws_ecs_cluster.ecs_cluster.id
   task_definition = aws_ecs_task_definition.mongo_db_ecs_task_definition.arn
   desired_count   = 1
