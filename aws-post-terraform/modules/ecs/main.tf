@@ -28,7 +28,7 @@ resource "aws_ecs_cluster_capacity_providers" "ecs_cluster_capacity_providers" {
 }
 
 resource "aws_ecs_task_definition" "mongo_db_ecs_task_definition" {
-  family                   = var.mongo_db_family
+  family                   = var.mongo_db
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = 1024

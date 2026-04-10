@@ -97,7 +97,7 @@ module "ecs" {
   mongo_db_password                          = "testpass"
   mongo_db_port                              = 27017
   mongo_db_name                              = "practice"
-  mongo_db_family                            = "mongo-db-family"
+  mongo_db                                   = "mongo-db"
   mongo_db_efs_file_system_id                = module.efs.mongo_db_efs_file_system_id
   zipkin_port                                = 9411
   zipkin_name                                = "zipkin"
