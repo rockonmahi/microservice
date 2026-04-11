@@ -81,8 +81,8 @@ public class RegisteredClientServiceImpl implements RegisteredClientService {
                         .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
                         .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                         .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-                        //.redirectUri("http://localhost:4200/callback")
-                        .redirectUri("https://oauth.pstmn.io/v1/callback")
+                        .redirectUri("http://localhost:4200/callback")
+                        .postLogoutRedirectUri("http://localhost:4200")
                         .scopes(scopes -> scopes.addAll(
                                 List.of(OidcScopes.OPENID, OidcScopes.EMAIL, OidcScopes.PHONE)))
                         .tokenSettings(TokenSettings.builder()
@@ -101,6 +101,7 @@ public class RegisteredClientServiceImpl implements RegisteredClientService {
                         .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                         .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
                         .redirectUri("http://localhost:4200/callback")
+                        .postLogoutRedirectUri("http://localhost:4200/")
                         .scopes(scopes -> scopes.addAll(
                                 List.of(OidcScopes.OPENID, OidcScopes.EMAIL, OidcScopes.PHONE)))
                         .clientSettings(ClientSettings.builder()

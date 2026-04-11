@@ -31,7 +31,7 @@ export class AuthService {
 
   public logout() {
     const idToken = this.oauthService.getIdToken();
-    const logoutUrl = `http://localhost:6115/authentication-server/logout?id_token_hint=${idToken}&post_logout_redirect_uri=${encodeURIComponent(window.location.origin + '/')}`;
+    const logoutUrl = `http://localhost:6115/authentication-server/logout?id_token_hint=${idToken}&post_logout_redirect_uri=${encodeURIComponent(window.location.origin)}`;
 
     // Clear local tokens and session
     this.oauthService.logOut(true);

@@ -8,7 +8,7 @@ export const authCodeFlowConfig: AuthConfig = {
   redirectUri: window.location.origin + '/callback',
 
   // URL of the SPA to redirect the user to after logout
-  postLogoutRedirectUri: window.location.origin + '/',
+  postLogoutRedirectUri: window.location.origin,
 
   // Standard Spring Authorization Server OIDC logout endpoint
   logoutUrl: 'http://localhost:6115/authentication-server/logout',
