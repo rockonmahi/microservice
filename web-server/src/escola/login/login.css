@@ -28,3 +28,11 @@ button{
     border:none;
     cursor:pointer;
 }
+
+pre {
+    background: #e0e0e0;
+    padding: 10px;
+    border-radius: 4px;
+    overflow-x: auto;
+    font-size: 0.8em;
+}

@@ -1,29 +1,42 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { OAuthService } from 'angular-oauth2-oidc';
+import { authCodeFlowConfig } from '../auth.config';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule],
   templateUrl: './login.html',
   styleUrl: './login.css'
 })
 export class LoginComponent {
 
-  loginForm: FormGroup;
+  constructor(private oauthService: OAuthService) {
+    this.configure();
+  }
 
-  constructor(private fb: FormBuilder) {
-    this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
-    });
+  private configure() {
+    this.oauthService.configure(authCodeFlowConfig);
+    this.oauthService.loadDiscoveryDocumentAndTryLogin();
   }
 
   login() {
-    if (this.loginForm.valid) {
-      console.log("Login Data:", this.loginForm.value);
-    }
+    this.oauthService.initCodeFlow();
+  }
+
+  logout() {
+    this.oauthService.logOut();
+  }
+
+  get name() {
+    let claims = this.oauthService.getIdentityClaims();
+    if (!claims) return null;
+    return claims['name'];
+  }
+
+  get identityClaims() {
+    return this.oauthService.getIdentityClaims();
   }
 
 }
