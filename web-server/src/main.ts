@@ -1,6 +1,6 @@
 import { bootstrapApplication } from '@angular/platform-browser';
-import { webConfig } from './web/web.config';
-import { WebComponent } from './web/web';
+import { escolaConfig } from './escola/escola.config';
+import {EscolaComponent} from './escola/escola';
 
-bootstrapApplication(WebComponent, webConfig)
+bootstrapApplication(EscolaComponent, escolaConfig)
   .catch((err) => console.error(err));
