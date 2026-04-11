@@ -1,0 +1,18 @@
+<div class="dashboard-container">
+    <header>
+        <h1>Welcome to Dashboard, {{ name }}!</h1>
+        <button (click)="logout()" class="logout-btn">Logout</button>
+    </header>
+
+    <main>
+        <div class="info-card">
+            <h3>Identity Claims</h3>
+            <pre>{{ claims | json }}</pre>
+        </div>
+
+        <div class="info-card">
+            <h3>Access Token</h3>
+            <pre class="token">{{ accessToken }}</pre>
+        </div>
+    </main>
+</div>
