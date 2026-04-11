@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { OAuthService } from 'angular-oauth2-oidc';
-import { authCodeFlowConfig } from '../auth.config';
+import { AuthService } from '../auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -10,33 +10,30 @@ import { authCodeFlowConfig } from '../auth.config';
   templateUrl: './login.html',
   styleUrl: './login.css'
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
 
-  constructor(private oauthService: OAuthService) {
-    this.configure();
-  }
+  constructor(public authService: AuthService, private router: Router) {}
 
-  private configure() {
-    this.oauthService.configure(authCodeFlowConfig);
-    this.oauthService.loadDiscoveryDocumentAndTryLogin();
+  ngOnInit(): void {
+    if (this.authService.isAuthenticated()) {
+      this.router.navigate(['/']);
+    }
   }
 
   login() {
-    this.oauthService.initCodeFlow();
+    this.authService.login();
   }
 
   logout() {
-    this.oauthService.logOut();
+    this.authService.logout();
   }
 
   get name() {
-    let claims = this.oauthService.getIdentityClaims();
-    if (!claims) return null;
-    return claims['name'];
+    return this.authService.name;
   }
 
   get identityClaims() {
-    return this.oauthService.getIdentityClaims();
+    return this.authService.identityClaims;
   }
 
 }
