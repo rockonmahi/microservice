@@ -3,6 +3,7 @@ package com.escola.authserver.service;
 import com.escola.authserver.entity.RegisteredClients;
 import com.escola.authserver.repository.RegisteredClientsRepository;
 import lombok.RequiredArgsConstructor;
+import org.jspecify.annotations.Nullable;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.core.oidc.OidcScopes;
@@ -25,120 +26,29 @@ public class RegisteredClientServiceImpl implements RegisteredClientService {
 
     @Override
     public void save(RegisteredClient registeredClient) {
-        save(convert(registeredClient));
-    }
-
-    @Override
-    public RegisteredClient findById(String id) {
-        return convert(registeredClientsRepository.findById(id).orElseThrow());
-    }
-
-    @Override
-    public RegisteredClient findByClientId(String clientId) {
-        return convert(registeredClientsRepository.findByClientId(clientId).orElseGet(() -> registeredClientNotFound(clientId)));
-    }
-
-    private RegisteredClients save(RegisteredClients registeredClient) {
-       return registeredClientsRepository.save(registeredClient);
-    }
-
-    private RegisteredClients registeredClientNotFound(String clientId) {
-        RegisteredClient registeredClient;
-        switch (clientId) {
-            case "clientCredentialsSelfContained":
-                registeredClient = RegisteredClient.withId("client-credentials-self-contained")
-                        .clientId("clientCredentialsSelfContained")
-                        .clientSecret("{bcrypt}$2a$10$MOvO4ycIuh3SaO0avHILm.yeTkB2PJ98DK3c0vQ3vkxZk9UrmLQXC")
-                        .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-                        .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-                        .scopes(scopes -> scopes.addAll(
-                                List.of(OidcScopes.OPENID, OidcScopes.EMAIL, OidcScopes.PHONE)))
-                        .tokenSettings(TokenSettings.builder()
-                                .accessTokenTimeToLive(Duration.ofMinutes(10))
-                                .accessTokenFormat(new OAuth2TokenFormat("self-contained"))
-                                .build())
-                        .build();
-                break;
-            case "clientCredentialsReference":
-                registeredClient = RegisteredClient.withId("client-credentials-reference")
-                        .clientId("clientCredentialsReference")
-                        .clientSecret("{bcrypt}$2a$12$ahlGFAzG6zg1.IIGv6wLEOeWFS3E2IFKYZoe2ahsBmyY0OSAfTFaO")
-                        .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-                        .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-                        .scopes(scopes -> scopes.addAll(
-                                List.of(OidcScopes.OPENID, OidcScopes.EMAIL, OidcScopes.PHONE)))
-                        .tokenSettings(TokenSettings.builder()
-                                .accessTokenTimeToLive(Duration.ofMinutes(10))
-                                .accessTokenFormat(new OAuth2TokenFormat("reference"))
-                                .build())
-                        .build();
-                break;
-            case "authorizationCodeSelfContained":
-                registeredClient = RegisteredClient.withId("authorization-code-self-contained")
-                        .clientId("authorizationCodeSelfContained")
-                        .clientSecret("{bcrypt}$2a$12$IBnNwjtJbW99CAnnMPtG6OcFSYPCTk6e/dXBiRfdgIVER1/rMFVCi")
-                        .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST)
-                        .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-                        .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                        .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-                        .redirectUri("http://localhost:4200/callback")
-                        .postLogoutRedirectUri("http://localhost:4200")
-                        .scopes(scopes -> scopes.addAll(
-                                List.of(OidcScopes.OPENID, OidcScopes.EMAIL, OidcScopes.PHONE)))
-                        .tokenSettings(TokenSettings.builder()
-                                .accessTokenTimeToLive(Duration.ofMinutes(10))
-                                .refreshTokenTimeToLive(Duration.ofHours(8))
-                                .reuseRefreshTokens(false)
-                                .accessTokenFormat(new OAuth2TokenFormat("self-contained"))
-                                .build())
-                        .build();
-                break;
-            case "eazypublicclient":
-                registeredClient = RegisteredClient.withId("pkce-public-client")
-                        .clientId("eazypublicclient")
-                        .clientAuthenticationMethod(ClientAuthenticationMethod.NONE)
-                        .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-                        .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                        .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-                        .redirectUri("http://localhost:4200/callback")
-                        .postLogoutRedirectUri("http://localhost:4200/")
-                        .scopes(scopes -> scopes.addAll(
-                                List.of(OidcScopes.OPENID, OidcScopes.EMAIL, OidcScopes.PHONE)))
-                        .clientSettings(ClientSettings.builder()
-                                .requireProofKey(true)
-                                .build())
-                        .tokenSettings(TokenSettings.builder()
-                                .accessTokenTimeToLive(Duration.ofMinutes(10))
-                                .refreshTokenTimeToLive(Duration.ofHours(8))
-                                .reuseRefreshTokens(false)
-                                .accessTokenFormat(new OAuth2TokenFormat("self-contained"))
-                                .build())
-                        .build();
-                break;
-            case "passwordSelfContained":
-                registeredClient = RegisteredClient.withId("password-self-contained")
-                        .clientId("passwordSelfContained")
-                        .clientSecret("{bcrypt}$2a$12$Q6de7Lt/AWs0OeL4bbnL7eDNldO8n5Rn6b8adTSD1TmtwtYQBOB1W")
-                        .clientAuthenticationMethod(ClientAuthenticationMethod.NONE)
-                        .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-                        .authorizationGrantType(AuthorizationGrantType.PASSWORD)
-                        .scopes(scopes -> scopes.addAll(
-                                List.of(OidcScopes.OPENID, OidcScopes.EMAIL, OidcScopes.PHONE)))
-                        .tokenSettings(TokenSettings.builder()
-                                .accessTokenTimeToLive(Duration.ofMinutes(10))
-                                .refreshTokenTimeToLive(Duration.ofHours(8))
-                                .reuseRefreshTokens(false)
-                                .accessTokenFormat(new OAuth2TokenFormat("self-contained"))
-                                .build())
-                        .build();
-                break;
-            default:
-                throw new IllegalArgumentException("Unknown clientId: " + clientId);
+        RegisteredClients existing = registeredClientsRepository.findByClientId(registeredClient.getClientId()).orElse(null);
+        RegisteredClients toSave = convert(registeredClient);
+        if (existing != null) {
+            toSave.setCreatedAt(existing.getCreatedAt());
+        } else {
+            toSave.setCreatedAt(Instant.now());
         }
-
-        return save(convert(registeredClient));
+        registeredClientsRepository.save(toSave);
     }
 
+    @Override
+    public @Nullable RegisteredClient findById(String id) {
+        return registeredClientsRepository.findById(id).map(this::convert).orElse(null);
+    }
+
+    @Override
+    public @Nullable RegisteredClient findByClientId(String clientId) {
+        return registeredClientsRepository.findByClientId(clientId)
+                .map(this::convert)
+                .orElseGet(() -> {
+                    return null;
+                });
+    }
     public RegisteredClient convert(RegisteredClients source) {
 
         RegisteredClient.Builder builder =
