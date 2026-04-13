@@ -27,12 +27,15 @@ public class RegisteredClientServiceImpl implements RegisteredClientService {
     @Override
     public void save(RegisteredClient registeredClient) {
         RegisteredClients existing = registeredClientsRepository.findByClientId(registeredClient.getClientId()).orElse(null);
-        RegisteredClients toSave = convert(registeredClient);
         if (existing != null) {
-            toSave.setCreatedAt(existing.getCreatedAt());
-        } else {
-            toSave.setCreatedAt(Instant.now());
+            RegisteredClients toUpdate = convert(registeredClient);
+            toUpdate.setId(existing.getId());
+            toUpdate.setCreatedAt(existing.getCreatedAt());
+            registeredClientsRepository.save(toUpdate);
+            return;
         }
+        RegisteredClients toSave = convert(registeredClient);
+        toSave.setCreatedAt(Instant.now());
         registeredClientsRepository.save(toSave);
     }
 

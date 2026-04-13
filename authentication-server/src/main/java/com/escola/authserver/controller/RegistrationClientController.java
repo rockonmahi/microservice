@@ -99,7 +99,8 @@ public class RegistrationClientController implements RegistrationClientApi {
 
     @Override
     public ResponseEntity<String> registerPkceClient(ClientRegistrationDto clientDto) {
-        clientDto.setAuthorizationGrantTypes(java.util.Set.of(AuthorizationGrantType.AUTHORIZATION_CODE.getValue(), AuthorizationGrantType.REFRESH_TOKEN.getValue()));
+        clientDto.setAuthorizationGrantTypes(java.util.Set.of(AuthorizationGrantType.AUTHORIZATION_CODE.getValue(),
+                                                              AuthorizationGrantType.REFRESH_TOKEN.getValue()));
         clientDto.setClientAuthenticationMethods(java.util.Set.of(ClientAuthenticationMethod.NONE.getValue()));
         clientDto.setRequireProofKey(true);
         return registerClient(clientDto);
@@ -107,14 +108,16 @@ public class RegistrationClientController implements RegistrationClientApi {
 
     @Override
     public ResponseEntity<String> registerPasswordClient(ClientRegistrationDto clientDto) {
-        clientDto.setAuthorizationGrantTypes(java.util.Set.of(AuthorizationGrantType.PASSWORD.getValue(), AuthorizationGrantType.REFRESH_TOKEN.getValue()));
+        clientDto.setAuthorizationGrantTypes(java.util.Set.of(AuthorizationGrantType.PASSWORD.getValue(),
+                                                              AuthorizationGrantType.REFRESH_TOKEN.getValue()));
         clientDto.setClientAuthenticationMethods(java.util.Set.of(ClientAuthenticationMethod.CLIENT_SECRET_BASIC.getValue()));
         return registerClient(clientDto);
     }
 
     @Override
     public ResponseEntity<String> registerDeviceCodeClient(ClientRegistrationDto clientDto) {
-        clientDto.setAuthorizationGrantTypes(java.util.Set.of(AuthorizationGrantType.DEVICE_CODE.getValue(), AuthorizationGrantType.REFRESH_TOKEN.getValue()));
+        clientDto.setAuthorizationGrantTypes(java.util.Set.of(AuthorizationGrantType.DEVICE_CODE.getValue(),
+                                                              AuthorizationGrantType.REFRESH_TOKEN.getValue()));
         clientDto.setClientAuthenticationMethods(java.util.Set.of(ClientAuthenticationMethod.NONE.getValue()));
         return registerClient(clientDto);
     }
