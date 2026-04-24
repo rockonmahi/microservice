@@ -5,8 +5,30 @@
     </header>
 
     <main>
+        <section class="user-profile">
+            <h3>User Login Details</h3>
+            <div class="profile-grid">
+                <div class="profile-item">
+                    <span class="label">Username (Sub):</span>
+                    <span class="value">{{ claims?.sub }}</span>
+                </div>
+                <div class="profile-item" *ngIf="claims?.email">
+                    <span class="label">Email:</span>
+                    <span class="value">{{ claims?.email }}</span>
+                </div>
+                <div class="profile-item" *ngIf="claims?.phone_number">
+                    <span class="label">Phone:</span>
+                    <span class="value">{{ claims?.phone_number }}</span>
+                </div>
+                <div class="profile-item" *ngIf="claims?.roles">
+                    <span class="label">Roles:</span>
+                    <span class="value">{{ claims?.roles?.join(', ') }}</span>
+                </div>
+            </div>
+        </section>
+
         <div class="info-card">
-            <h3>Identity Claims</h3>
+            <h3>Identity Claims (Raw)</h3>
             <pre>{{ claims | json }}</pre>
         </div>
 
