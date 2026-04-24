@@ -2,9 +2,8 @@
 package com.escola.authserver.service;
 
 import com.escola.authserver.dto.UserLoginDto;
-import com.escola.authserver.entity.RegisteredUsersDetails;
 import com.escola.authserver.entity.RegisteredUsers;
-import com.escola.authserver.form.UserLoginForm;
+import com.escola.authserver.entity.RegisteredUsersDetails;
 import com.escola.authserver.repository.RegisteredUsersRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,7 +14,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
