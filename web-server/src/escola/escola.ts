@@ -5,6 +5,6 @@ import { RouterOutlet } from '@angular/router';
   selector: 'web-server',
   standalone: true,
   imports: [RouterOutlet],
-  templateUrl: './escola.html'
+  template: `<router-outlet></router-outlet>`
 })
 export class EscolaComponent {}

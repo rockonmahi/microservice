@@ -1,62 +1,18 @@
-<div class="login-page">
-    <div class="login-card">
-        <div class="login-header">
-            <div class="logo">
-                <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 2L3 7V17L12 22L21 17V7L12 2Z" stroke="#1976d2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M12 22V12" stroke="#1976d2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M21 7L12 12L3 7" stroke="#1976d2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </div>
-            <h1>Escola Platform</h1>
-            <p class="subtitle">Secure Authentication Portal</p>
+<div class="login-container">
+    <div *ngIf="!name">
+        <h2>Please Login</h2>
+        <button (click)="login()">Login with Auth Server</button>
+    </div>
+
+    <div *ngIf="name">
+        <h2>Welcome, {{ name }}!</h2>
+        <p>You are successfully logged in.</p>
+
+        <div class="claims" *ngIf="identityClaims">
+            <h3>Your Identity Claims:</h3>
+            <pre>{{ identityClaims | json }}</pre>
         </div>
 
-        <div class="login-content" *ngIf="!name">
-            <div class="welcome-text">
-                <h3>Welcome Back</h3>
-                <p>Please sign in to access your dashboard and manage your services.</p>
-            </div>
-
-            <button class="login-button" (click)="login()">
-                <span class="icon">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
-                        <polyline points="10 17 15 12 10 7"></polyline>
-                        <line x1="15" y1="12" x2="3" y2="12"></line>
-                    </svg>
-                </span>
-                Login with Central Auth
-            </button>
-
-            <div class="features-list">
-                <div class="feature-item">
-                    <span class="check">✓</span> PKCE Secured Flow
-                </div>
-                <div class="feature-item">
-                    <span class="check">✓</span> Single Sign-On Enabled
-                </div>
-                <div class="feature-item">
-                    <span class="check">✓</span> Multi-Factor Ready
-                </div>
-            </div>
-        </div>
-
-        <div class="login-content authenticated" *ngIf="name">
-            <div class="avatar">
-                {{ name.substring(0, 1).toUpperCase() }}
-            </div>
-            <h3>Authenticated as {{ name }}</h3>
-            <p>You are currently signed in to the system.</p>
-
-            <div class="actions">
-                <button class="primary-button" (click)="logout()">Go to Dashboard</button>
-                <button class="secondary-button" (click)="logout()">Sign Out</button>
-            </div>
-        </div>
-
-        <div class="login-footer">
-            <p>&copy; 2026 Escola Microservices. All rights reserved.</p>
-        </div>
+        <button (click)="logout()">Logout</button>
     </div>
 </div>

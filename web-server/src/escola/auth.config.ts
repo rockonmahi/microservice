@@ -21,7 +21,7 @@ export const authCodeFlowConfig: AuthConfig = {
 
   // The SPA's id. The SPA is registered with this id at the auth-server
   // matching 'eazypublicclient' in RegisteredClientServiceImpl.java
-  clientId: 'my-pkce-client',
+  clientId: 'angularAppAuthenticationCode',
 
   // Just needed if your auth server demands a secret. In general, this
   // is a bad idea for SPA, as the secret cannot be kept safe.
