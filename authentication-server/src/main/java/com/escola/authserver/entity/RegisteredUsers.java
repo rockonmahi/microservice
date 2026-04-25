@@ -3,6 +3,7 @@ package com.escola.authserver.entity;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Getter
@@ -12,6 +13,7 @@ public class RegisteredUsers {
 
     @Id
     private final String id;
+    @Indexed(unique = true)
     private final String userName;
     private final String password;
     private final String fullName;
