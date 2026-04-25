@@ -14,7 +14,7 @@ export class AuthService {
   private readonly AUTH_URL = 'http://localhost:6115/authentication-server/oauth2/authorize';
   private readonly TOKEN_URL = 'http://localhost:6115/authentication-server/oauth2/token';
   private readonly LOGOUT_URL = 'http://localhost:6115/authentication-server/logout';
-  private readonly CLIENT_ID = 'authorizationCodeSelfContained';
+  private readonly CLIENT_ID = 'angularAppAuthenticationCode';
   private readonly REDIRECT_URI = window.location.origin + '/callback';
 
   async login() {
@@ -27,7 +27,7 @@ export class AuthService {
       response_type: 'code',
       client_id: this.CLIENT_ID,
       redirect_uri: this.REDIRECT_URI,
-      scope: 'openid profile email phone',
+      scope: 'openid email phone',
       code_challenge: challenge,
       code_challenge_method: 'S256'
     });
@@ -46,7 +46,7 @@ export class AuthService {
       .set('client_id', this.CLIENT_ID)
       .set('code_verifier', verifier);
 
-    const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
+    const headers = new HttpHeaders().set('grant_type', 'authorization_code').set('Content-Type', 'application/x-www-form-urlencoded');
 
     try {
       const response: any = await firstValueFrom(this.http.post(this.TOKEN_URL, body.toString(), { headers }));
