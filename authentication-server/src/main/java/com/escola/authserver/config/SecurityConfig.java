@@ -85,7 +85,7 @@ public class SecurityConfig {
                         .requestMatchers("/actuator/health", "/register/**", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(Customizer.withDefaults())
-                .logout(Customizer.withDefaults())
+                .logout(logout -> logout.logoutSuccessUrl("http://localhost:4200"))
                 .csrf(AbstractHttpConfigurer::disable);
 
         http.cors(Customizer.withDefaults());
