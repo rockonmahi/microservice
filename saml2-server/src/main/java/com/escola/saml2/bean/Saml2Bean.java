@@ -1,6 +1,7 @@
 package com.escola.saml2.bean;
 
 import com.escola.saml2.filter.Saml2Filter;
+import lombok.RequiredArgsConstructor;
 import org.opensaml.saml.saml2.core.Assertion;
 import org.opensaml.saml.saml2.core.Attribute;
 import org.opensaml.saml.saml2.core.AttributeStatement;
@@ -22,15 +23,15 @@ import java.util.Collection;
 import java.util.List;
 
 @Configuration
+@RequiredArgsConstructor
 public class Saml2Bean {
 
-    @Autowired
-    RelyingPartyRegistrationRepository relyingPartyRegistrationRepository;
+    private final RelyingPartyRegistrationRepository relyingPartyRegistrationRepository;
 
     @Bean
     public Saml2Filter saml2Filter() {
         return new Saml2Filter(
-                (RelyingPartyRegistrationResolver) new DefaultRelyingPartyRegistrationResolver(this.relyingPartyRegistrationRepository),
+                new DefaultRelyingPartyRegistrationResolver(this.relyingPartyRegistrationRepository),
                 new OpenSamlMetadataResolver());
     }
 
@@ -59,19 +60,13 @@ public class Saml2Bean {
     }
 
     private static Converter<Assertion, Collection<? extends GrantedAuthority>> authoritiesExtractor() {
-        Converter<Assertion, Collection<? extends GrantedAuthority>> authoritiesExtractor = assertion -> {
-
-            List<SimpleGrantedAuthority> userRoles
-                    = assertion.getAttributeStatements().stream()
-                    .map(AttributeStatement::getAttributes)
-                    .flatMap(Collection::stream)
-                    .filter(attr -> "groups".equalsIgnoreCase(attr.getName()))
-                    .map(Attribute::getAttributeValues)
-                    .flatMap(Collection::stream)
-                    .map(xml -> new SimpleGrantedAuthority(xml.getDOM().getTextContent()))
-                    .toList();
-            return userRoles;
-        };
-        return authoritiesExtractor;
+        return assertion -> assertion.getAttributeStatements().stream()
+        .map(AttributeStatement::getAttributes)
+        .flatMap(Collection::stream)
+        .filter(attr -> "groups".equalsIgnoreCase(attr.getName()))
+        .map(Attribute::getAttributeValues)
+        .flatMap(Collection::stream)
+        .map(xml -> new SimpleGrantedAuthority(xml.getDOM().getTextContent()))
+        .toList();
     }
 }

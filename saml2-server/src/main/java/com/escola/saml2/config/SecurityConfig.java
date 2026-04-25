@@ -1,6 +1,7 @@
 package com.escola.saml2.config;
 
 import com.escola.saml2.filter.Saml2Filter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,13 +13,12 @@ import org.springframework.security.web.SecurityFilterChain;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
+@RequiredArgsConstructor
 public class SecurityConfig {
 
-	@Autowired
-	private Saml2Filter saml2Filter;
+	private final Saml2Filter saml2Filter;
 
-	@Autowired
-	private OpenSaml4AuthenticationProvider samlAuthProv;
+	private final OpenSaml4AuthenticationProvider samlAuthProv;
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {

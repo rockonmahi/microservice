@@ -33,7 +33,7 @@ public class Saml2Filter extends OncePerRequestFilter {
     }
 
     public Saml2Filter(RelyingPartyRegistrationRepository relyingPartyRegistrationRepository, Saml2MetadataResolver saml2MetadataResolver) {
-        this((RelyingPartyRegistrationResolver)(new DefaultRelyingPartyRegistrationResolver(relyingPartyRegistrationRepository)), saml2MetadataResolver);
+        this(new DefaultRelyingPartyRegistrationResolver(relyingPartyRegistrationRepository), saml2MetadataResolver);
     }
 
     public Saml2Filter(Saml2MetadataResponseResolver metadataResponseResolver) {

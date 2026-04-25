@@ -7,9 +7,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @SpringBootApplication
 @EnableDiscoveryClient
 public class Saml2ServerApplication {
-
 	public static void main(String[] args) {
-
 		SpringApplication.run(Saml2ServerApplication.class, args);
 	}
 }
