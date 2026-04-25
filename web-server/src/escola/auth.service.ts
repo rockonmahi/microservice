@@ -72,6 +72,22 @@ export class AuthService {
     return localStorage.getItem('access_token');
   }
 
+  get scopes(): string[] {
+    const token = this.accessToken;
+    if (!token) return [];
+    try {
+      const payload = token.split('.')[1];
+      const base64 = payload.replace(/-/g, '+').replace(/_/g, '/');
+      const decoded = JSON.parse(atob(base64));
+      if (decoded.scope) {
+        return typeof decoded.scope === 'string' ? decoded.scope.split(' ') : decoded.scope;
+      }
+    } catch (e) {
+      console.error('Failed to decode access token for scopes', e);
+    }
+    return [];
+  }
+
   get idToken(): string | null {
     return localStorage.getItem('id_token');
   }

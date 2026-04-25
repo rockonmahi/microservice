@@ -24,6 +24,10 @@
                     <span class="label">Roles:</span>
                     <span class="value">{{ claims?.roles?.join(', ') }}</span>
                 </div>
+                <div class="profile-item" *ngIf="scopes.length > 0">
+                    <span class="label">Scopes:</span>
+                    <span class="value">{{ scopes.join(', ') }}</span>
+                </div>
             </div>
         </section>
 

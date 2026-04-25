@@ -25,6 +25,10 @@ export class DashboardComponent {
     return this.authService.accessToken;
   }
 
+  get scopes() {
+    return this.authService.scopes;
+  }
+
   logout() {
     this.authService.logout();
   }
