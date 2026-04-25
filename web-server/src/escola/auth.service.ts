@@ -1,86 +1,63 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { generateCodeVerifier, generateCodeChallenge } from './pkce.utils';
-import { firstValueFrom } from 'rxjs';
+import { OAuthService } from 'angular-oauth2-oidc';
+import { authCodeFlowConfig } from './auth.config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private http = inject(HttpClient);
+  private oauthService = inject(OAuthService);
   private router = inject(Router);
 
-  private readonly AUTH_URL = 'http://localhost:6115/authentication-server/oauth2/authorize';
-  private readonly TOKEN_URL = 'http://localhost:6115/authentication-server/oauth2/token';
-  private readonly LOGOUT_URL = 'http://localhost:6115/authentication-server/logout';
-  private readonly CLIENT_ID = 'my-pkce-client';
-  private readonly REDIRECT_URI = window.location.origin + '/callback';
+  constructor() {
+    this.configure();
+  }
+
+  private configure() {
+    this.oauthService.configure(authCodeFlowConfig);
+    this.oauthService.loadDiscoveryDocumentAndTryLogin().then(() => {
+      if (this.oauthService.hasValidAccessToken()) {
+        // Already logged in, maybe redirect if on callback
+        if (window.location.pathname === '/callback') {
+            this.router.navigate(['/dashboard']);
+        }
+      }
+    });
+  }
 
   async login() {
-    const verifier = await generateCodeVerifier();
-    localStorage.setItem('code_verifier', verifier);
-
-    const challenge = await generateCodeChallenge(verifier);
-
-    const params = new URLSearchParams({
-      response_type: 'code',
-      client_id: this.CLIENT_ID,
-      redirect_uri: this.REDIRECT_URI,
-      scope: 'openid email phone',
-      code_challenge: challenge,
-      code_challenge_method: 'S256'
-    });
-
-    window.location.href = `${this.AUTH_URL}?${params.toString()}`;
+    this.oauthService.initCodeFlow();
   }
 
   async handleCallback(code: string) {
-    const verifier = localStorage.getItem('code_verifier');
-    if (!verifier) throw new Error('No code_verifier found');
-
-    const body = new HttpParams()
-      .set('grant_type', 'authorization_code')
-      .set('code', code)
-      .set('redirect_uri', this.REDIRECT_URI)
-      .set('client_id', this.CLIENT_ID)
-      .set('code_verifier', verifier);
-
-    try {
-      const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
-
-      const response: any = await firstValueFrom(this.http.post(this.TOKEN_URL, body.toString(), { headers }));
-      localStorage.setItem('access_token', response.access_token);
-      localStorage.setItem('id_token', response.id_token);
-      this.router.navigate(['/dashboard']);
-    } catch (error) {
-      console.error('Token exchange failed', error);
-      this.router.navigate(['/']);
-    } finally {
-      localStorage.removeItem('code_verifier');
+    // angular-oauth2-oidc handles this automatically in loadDiscoveryDocumentAndTryLogin
+    // but if we want to manually trigger it:
+    await this.oauthService.loadDiscoveryDocumentAndTryLogin();
+    if (this.oauthService.hasValidAccessToken()) {
+        this.router.navigate(['/dashboard']);
     }
   }
 
   logout() {
-    const idToken = this.idToken;
-    localStorage.clear();
-    const logoutUrl = `${this.LOGOUT_URL}?id_token_hint=${idToken}&post_logout_redirect_uri=${encodeURIComponent(window.location.origin)}`;
-    window.location.href = logoutUrl;
+    this.oauthService.logOut();
   }
 
   get accessToken(): string | null {
-    return localStorage.getItem('access_token');
+    return this.oauthService.getAccessToken();
+  }
+
+  get idToken(): string | null {
+    return this.oauthService.getIdToken();
   }
 
   get scopes(): string[] {
     const token = this.accessToken;
     if (!token) return [];
     try {
-      const payload = token.split('.')[1];
-      const base64 = payload.replace(/-/g, '+').replace(/_/g, '/');
-      const decoded = JSON.parse(atob(base64));
-      if (decoded.scope) {
-        return typeof decoded.scope === 'string' ? decoded.scope.split(' ') : decoded.scope;
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      if (payload.scope) {
+        return typeof payload.scope === 'string' ? payload.scope.split(' ') : payload.scope;
       }
     } catch (e) {
       console.error('Failed to decode access token for scopes', e);
@@ -88,31 +65,17 @@ export class AuthService {
     return [];
   }
 
-  get idToken(): string | null {
-    return localStorage.getItem('id_token');
-  }
-
   get identityClaims(): any {
-    const token = this.idToken;
-    if (!token) return null;
-    try {
-      const payload = token.split('.')[1];
-      // Decode base64url
-      const base64 = payload.replace(/-/g, '+').replace(/_/g, '/');
-      return JSON.parse(decodeURIComponent(atob(base64).split('').map(c => {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-      }).join('')));
-    } catch (e) {
-      return null;
-    }
+    return this.oauthService.getIdentityClaims();
   }
 
   get name(): string | null {
     const claims = this.identityClaims;
-    return claims ? (claims.name || claims.sub) : null;
+    if (!claims) return null;
+    return claims.name || claims.preferred_username || claims.sub || null;
   }
 
   isAuthenticated(): boolean {
-    return !!this.accessToken;
+    return this.oauthService.hasValidAccessToken();
   }
 }
