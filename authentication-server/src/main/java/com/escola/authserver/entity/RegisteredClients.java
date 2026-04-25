@@ -1,13 +1,13 @@
 package com.escola.authserver.entity;
 
-import java.time.Instant;
-import java.util.Set;
-
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.time.Instant;
+import java.util.Set;
 
 @Document(collection = "registered_clients")
 @Data

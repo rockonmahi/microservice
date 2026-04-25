@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../auth.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -11,12 +11,16 @@ import { Router } from '@angular/router';
   styleUrl: './login.css'
 })
 export class LoginComponent implements OnInit {
-
-  constructor(public authService: AuthService, private router: Router) {}
+  private authService = inject(AuthService);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
   ngOnInit(): void {
-    if (this.authService.isAuthenticated()) {
-      this.router.navigate(['/']);
+    const code = this.route.snapshot.queryParamMap.get('code');
+    if (code) {
+      this.authService.handleCallback(code);
+    } else if (this.authService.isAuthenticated()) {
+      this.router.navigate(['/dashboard']);
     }
   }
 
@@ -35,5 +39,4 @@ export class LoginComponent implements OnInit {
   get identityClaims() {
     return this.authService.identityClaims;
   }
-
 }
