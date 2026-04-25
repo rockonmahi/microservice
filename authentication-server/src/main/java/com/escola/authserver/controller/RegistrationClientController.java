@@ -91,18 +91,18 @@ public class RegistrationClientController implements RegistrationClientApi {
     }
 
     @Override
-    public ResponseEntity<String> registerClientCredentialsClient(ClientRegistrationDto clientDto) {
-        clientDto.setAuthorizationGrantTypes(java.util.Set.of(AuthorizationGrantType.CLIENT_CREDENTIALS.getValue()));
-        clientDto.setClientAuthenticationMethods(java.util.Set.of(ClientAuthenticationMethod.CLIENT_SECRET_BASIC.getValue()));
+    public ResponseEntity<String> registerPkceClient(ClientRegistrationDto clientDto) {
+        clientDto.setAuthorizationGrantTypes(java.util.Set.of(AuthorizationGrantType.AUTHORIZATION_CODE.getValue(),
+                AuthorizationGrantType.REFRESH_TOKEN.getValue()));
+        clientDto.setClientAuthenticationMethods(java.util.Set.of(ClientAuthenticationMethod.NONE.getValue()));
+        clientDto.setRequireProofKey(true);
         return registerClient(clientDto);
     }
 
     @Override
-    public ResponseEntity<String> registerPkceClient(ClientRegistrationDto clientDto) {
-        clientDto.setAuthorizationGrantTypes(java.util.Set.of(AuthorizationGrantType.AUTHORIZATION_CODE.getValue(),
-                                                              AuthorizationGrantType.REFRESH_TOKEN.getValue()));
-        clientDto.setClientAuthenticationMethods(java.util.Set.of(ClientAuthenticationMethod.NONE.getValue()));
-        clientDto.setRequireProofKey(true);
+    public ResponseEntity<String> registerClientCredentialsClient(ClientRegistrationDto clientDto) {
+        clientDto.setAuthorizationGrantTypes(java.util.Set.of(AuthorizationGrantType.CLIENT_CREDENTIALS.getValue()));
+        clientDto.setClientAuthenticationMethods(java.util.Set.of(ClientAuthenticationMethod.CLIENT_SECRET_BASIC.getValue()));
         return registerClient(clientDto);
     }
 

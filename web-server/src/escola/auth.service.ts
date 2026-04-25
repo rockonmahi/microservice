@@ -14,7 +14,7 @@ export class AuthService {
   private readonly AUTH_URL = 'http://localhost:6115/authentication-server/oauth2/authorize';
   private readonly TOKEN_URL = 'http://localhost:6115/authentication-server/oauth2/token';
   private readonly LOGOUT_URL = 'http://localhost:6115/authentication-server/logout';
-  private readonly CLIENT_ID = 'angularAppAuthenticationCode';
+  private readonly CLIENT_ID = 'my-pkce-client';
   private readonly REDIRECT_URI = window.location.origin + '/callback';
 
   async login() {
@@ -46,9 +46,9 @@ export class AuthService {
       .set('client_id', this.CLIENT_ID)
       .set('code_verifier', verifier);
 
-    const headers = new HttpHeaders().set('grant_type', 'authorization_code').set('Content-Type', 'application/x-www-form-urlencoded');
-
     try {
+      const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
+
       const response: any = await firstValueFrom(this.http.post(this.TOKEN_URL, body.toString(), { headers }));
       localStorage.setItem('access_token', response.access_token);
       localStorage.setItem('id_token', response.id_token);
