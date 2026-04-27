@@ -22,7 +22,6 @@ public class UserController {
 
     @PostMapping("/login")
     public UserLoginDto userDetails(@RequestBody UserLoginForm userLogin) {
-        Source schemaFile = new StreamSource(getClass().getResourceAsStream("schema/order_impex.xsd"));
 
         return userService.getUserDetails(userLogin);
     }
