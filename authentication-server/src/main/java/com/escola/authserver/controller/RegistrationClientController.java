@@ -35,7 +35,7 @@ public class RegistrationClientController implements RegistrationClientApi {
     public ResponseEntity<String> registerClient(ClientRegistrationDto clientDto) {
         RegisteredClient.Builder builder = RegisteredClient.withId(UUID.randomUUID().toString())
                 .clientId(clientDto.getClientId())
-                .clientSecret(passwordEncoder.encode(clientDto.getClientSecret()))
+                .clientSecret(clientDto.getClientSecret()!=null?passwordEncoder.encode(clientDto.getClientSecret()):null)
                 .clientName(clientDto.getClientName());
 
         if (clientDto.getClientAuthenticationMethods() != null) {
@@ -92,9 +92,9 @@ public class RegistrationClientController implements RegistrationClientApi {
 
     @Override
     public ResponseEntity<String> registerPkceClient(ClientRegistrationDto clientDto) {
-        clientDto.setAuthorizationGrantTypes(java.util.Set.of(AuthorizationGrantType.AUTHORIZATION_CODE.getValue(),
-                AuthorizationGrantType.REFRESH_TOKEN.getValue()));
-        clientDto.setClientAuthenticationMethods(java.util.Set.of(ClientAuthenticationMethod.NONE.getValue()));
+        clientDto.setAuthorizationGrantTypes(java.util.Set.of(AuthorizationGrantType.AUTHORIZATION_CODE.getValue()));
+        clientDto.setClientAuthenticationMethods(java.util.Set.of(ClientAuthenticationMethod.NONE.getValue(),
+                                                                  ClientAuthenticationMethod.CLIENT_SECRET_POST.getValue()));
         clientDto.setRequireProofKey(true);
         return registerClient(clientDto);
     }
