@@ -33,6 +33,7 @@ public class RegistrationClientController implements RegistrationClientApi {
 
     @Override
     public ResponseEntity<String> registerClient(ClientRegistrationDto clientDto) {
+
         RegisteredClient.Builder builder = RegisteredClient.withId(UUID.randomUUID().toString())
                 .clientId(clientDto.getClientId())
                 .clientSecret(clientDto.getClientSecret()!=null?passwordEncoder.encode(clientDto.getClientSecret()):null)
