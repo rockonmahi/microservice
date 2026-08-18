@@ -65,7 +65,7 @@ public class SecurityConfig {
 
         http.exceptionHandling((exceptions) -> exceptions
                         .defaultAuthenticationEntryPointFor(
-                                new LoginUrlAuthenticationEntryPoint("http://localhost:4200/login"),
+                                new LoginUrlAuthenticationEntryPoint("/login"),
                                 new MediaTypeRequestMatcher(MediaType.TEXT_HTML)
                         )
                 )
@@ -86,6 +86,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated())
                 .formLogin(Customizer.withDefaults())
                 .logout(logout -> logout.logoutSuccessUrl("http://localhost:4200"))
+                .oauth2ResourceServer((resourceServer) -> resourceServer.jwt(Customizer.withDefaults()))
                 .csrf(AbstractHttpConfigurer::disable);
 
         http.cors(Customizer.withDefaults());
