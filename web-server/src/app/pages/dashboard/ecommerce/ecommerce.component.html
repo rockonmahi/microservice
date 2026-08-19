@@ -1,4 +1,15 @@
 <div class="grid grid-cols-12 gap-4 md:gap-6">
+  <!-- Welcome Section from web-server2 logic -->
+  <div class="col-span-12 p-6 bg-white rounded-2xl border border-gray-200 dark:bg-gray-dark dark:border-gray-800" *ngIf="name">
+    <h2 class="text-xl font-semibold text-gray-800 dark:text-white/90">Welcome, {{ name }}!</h2>
+    <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">You are successfully logged in.</p>
+
+    <div class="mt-4 claims" *ngIf="identityClaims">
+      <h3 class="text-lg font-medium text-gray-800 dark:text-white/90">Your Identity Claims:</h3>
+      <pre class="mt-2 p-4 bg-gray-100 rounded-lg overflow-x-auto text-xs text-gray-700 dark:bg-white/5 dark:text-gray-300">{{ identityClaims | json }}</pre>
+    </div>
+  </div>
+
   <div class="col-span-12 space-y-6 xl:col-span-7">
     <div><app-ecommerce-metrics /></div>
 

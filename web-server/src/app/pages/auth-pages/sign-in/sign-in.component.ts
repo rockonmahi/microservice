@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { AuthPageLayoutComponent } from '../../../shared/layout/auth-page-layout/auth-page-layout.component';
 import { SigninFormComponent } from '../../../shared/components/auth/signin-form/signin-form.component';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from '../../../shared/services/auth.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -11,6 +13,25 @@ import { SigninFormComponent } from '../../../shared/components/auth/signin-form
   templateUrl: './sign-in.component.html',
   styles: ``
 })
-export class SignInComponent {
+export class SignInComponent implements OnInit {
+  private authService = inject(AuthService);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
+  ngOnInit(): void {
+    const code = this.route.snapshot.queryParamMap.get('code');
+    const state = this.route.snapshot.queryParamMap.get('state');
+    const error = this.route.snapshot.queryParamMap.get('error');
+
+    if (error) {
+      console.error('OAuth error:', error);
+      return;
+    }
+
+    if (code) {
+      this.authService.handleCallback(code, state || undefined);
+    } else if (this.authService.isAuthenticated()) {
+      this.router.navigate(['/']);
+    }
+  }
 }
