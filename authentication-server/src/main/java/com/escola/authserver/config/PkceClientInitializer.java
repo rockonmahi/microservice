@@ -27,11 +27,10 @@ public class PkceClientInitializer {
     @Bean
     ApplicationRunner registerAngularPkceClient() {
         return args -> {
-            if (registeredClientService.findByClientId(CLIENT_ID) != null) {
-                return;
-            }
+            RegisteredClient existing = registeredClientService.findByClientId(CLIENT_ID);
+            String id = existing != null ? existing.getId() : UUID.randomUUID().toString();
 
-            RegisteredClient client = RegisteredClient.withId(UUID.randomUUID().toString())
+            RegisteredClient client = RegisteredClient.withId(id)
                     .clientId(CLIENT_ID)
                     .clientName("Angular PKCE Application")
                     .clientAuthenticationMethod(ClientAuthenticationMethod.NONE)
