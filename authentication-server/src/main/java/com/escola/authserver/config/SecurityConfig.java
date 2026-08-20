@@ -59,10 +59,7 @@ public class SecurityConfig {
         http
                 .securityMatcher(authorizationServerConfigurer.getEndpointsMatcher())
                 .with(authorizationServerConfigurer, Customizer.withDefaults())
-                .authorizeHttpRequests(authorize -> authorize
-                        .anyRequest().authenticated()
-                )
-                .csrf(AbstractHttpConfigurer::disable);
+                .authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated());
 
         http
                 .getConfigurer(OAuth2AuthorizationServerConfigurer.class)
@@ -76,7 +73,9 @@ public class SecurityConfig {
                         )
                 );
 
-        http.cors(Customizer.withDefaults());
+        http
+                .csrf(AbstractHttpConfigurer::disable)
+                .cors(customCors());
 
         return http.build();
     }
