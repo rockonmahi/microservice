@@ -118,7 +118,10 @@ public class SecurityConfig {
     public Customizer<LogoutConfigurer<HttpSecurity>> customLogout() {
         return logout -> logout
                 .logoutUrl("/logout")
-                //.logoutSuccessUrl("http://localhost:4200/")
+                .invalidateHttpSession(true)
+                .clearAuthentication(true)
+                .deleteCookies("JSESSIONID")
+                .logoutSuccessUrl("http://localhost:4200/signin")
                 .permitAll();
     }
 
