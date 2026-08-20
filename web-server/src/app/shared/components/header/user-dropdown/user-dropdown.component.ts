@@ -8,7 +8,7 @@ import { AuthService } from '../../../services/auth.service';
 @Component({
   selector: 'app-user-dropdown',
   templateUrl: './user-dropdown.component.html',
-  imports:[CommonModule,RouterModule,DropdownComponent,DropdownItemTwoComponent]
+  imports: [CommonModule, RouterModule, DropdownComponent, DropdownItemTwoComponent]
 })
 export class UserDropdownComponent {
   private authService = inject(AuthService);
@@ -28,7 +28,7 @@ export class UserDropdownComponent {
 
   get email() {
     const claims = this.authService.identityClaims;
-    return claims ? claims.email : '';
+    return claims ? (claims['email'] as string ?? '') : '';
   }
 
   logout(event: Event) {
