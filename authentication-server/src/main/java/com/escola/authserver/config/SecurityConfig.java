@@ -119,7 +119,7 @@ public class SecurityConfig {
                 .invalidateHttpSession(true)
                 .clearAuthentication(true)
                 .deleteCookies("JSESSIONID")
-                .logoutSuccessUrl("http://localhost:4200/signin")
+                .logoutSuccessUrl("/login?logout")
                 .permitAll();
     }
 
