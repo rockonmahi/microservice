@@ -17,7 +17,7 @@ interface StoredTokens extends TokenResponse {
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private readonly authorizationServer = 'http://localhost:6115/authentication-server';
-  private readonly clientId = 'pkceAppAuthenticationCode';
+  private readonly clientId = 'pkceAngularAuthenticationCode';
   private readonly redirectUri = `${window.location.origin}/signin`;
   private readonly tokenStorageKey = 'oauth_tokens';
   private readonly verifierStorageKey = 'oauth_code_verifier';
