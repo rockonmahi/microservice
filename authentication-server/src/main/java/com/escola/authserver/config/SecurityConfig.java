@@ -60,6 +60,8 @@ public class SecurityConfig {
                 .with(authorizationServerConfigurer, Customizer.withDefaults())
                 .authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated());
 
+        // Enables the OIDC endpoints, including the OIDC RP-Initiated Logout endpoint:
+        // /connect/logout
         http
                 .getConfigurer(OAuth2AuthorizationServerConfigurer.class)
                 .oidc(Customizer.withDefaults());
@@ -87,6 +89,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(
                                 "/login",
+                                "/logout",
                                 "/actuator/health",
                                 "/v3/api-docs/**",
                                 "/swagger-ui/**",
@@ -116,6 +119,9 @@ public class SecurityConfig {
     public Customizer<LogoutConfigurer<HttpSecurity>> customLogout() {
         return logout -> logout
                 .logoutUrl("/logout")
+                // This is the normal Spring Security logout endpoint.
+                // Angular should prefer /connect/logout because it also validates
+                // the OIDC post_logout_redirect_uri for the registered client.
                 .invalidateHttpSession(true)
                 .clearAuthentication(true)
                 .deleteCookies("JSESSIONID")
