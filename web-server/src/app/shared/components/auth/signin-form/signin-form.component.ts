@@ -8,18 +8,12 @@ import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-signin-form',
-  imports: [
-    CommonModule,
-    LabelComponent,
-    CheckboxComponent,
-    RouterModule,
-    FormsModule
-  ],
+  imports: [CommonModule, LabelComponent, CheckboxComponent, RouterModule, FormsModule],
   templateUrl: './signin-form.component.html',
   styles: ``
 })
 export class SigninFormComponent implements OnInit {
-  private authService = inject(AuthService);
+  private readonly authService = inject(AuthService);
 
   showPassword = false;
   isChecked = false;
@@ -27,74 +21,45 @@ export class SigninFormComponent implements OnInit {
   errorMessage: string | null = null;
 
   name: string | null = null;
-  identityClaims: any = null;
+  identityClaims: Record<string, unknown> | null = null;
 
   username = '';
   password = '';
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.checkLoginStatus();
   }
 
-  togglePasswordVisibility() {
+  togglePasswordVisibility(): void {
     this.showPassword = !this.showPassword;
   }
 
-  checkLoginStatus() {
+  checkLoginStatus(): void {
     if (this.authService.isAuthenticated()) {
       this.name = this.authService.name;
       this.identityClaims = this.authService.identityClaims;
     }
   }
 
-  /**
-   * Handle form submission - Authenticate with credentials and start PKCE flow
-   */
-  async onFormSubmit(event: Event) {
+  async onFormSubmit(event: Event): Promise<void> {
     event.preventDefault();
-    this.errorMessage = null;
-    this.isLoading = true;
-
-    if (!this.username || !this.password) {
-      this.errorMessage = 'Please enter username and password';
-      this.isLoading = false;
-      return;
-    }
-
-    try {
-      console.log('🔑 Form submission: Attempting to login');
-      await this.authService.login(this.username, this.password);
-      // If we get here, startPKCELogin() didn't redirect (error case)
-      this.errorMessage = 'Login failed. Please try again.';
-      this.isLoading = false;
-    } catch (error: any) {
-      console.error('❌ Form login error:', error);
-      this.errorMessage = error.message || 'Login failed. Please try again.';
-      this.isLoading = false;
-    }
+    await this.onOAuthLogin();
   }
 
-  /**
-   * Start OAuth PKCE flow directly (without credentials)
-   */
-  async onOAuthLogin() {
+  async onOAuthLogin(): Promise<void> {
     this.errorMessage = null;
     this.isLoading = true;
 
     try {
-      console.log('🔐 OAuth button clicked: Starting PKCE flow');
       await this.authService.startPKCELogin();
-      // If we get here, the redirect didn't happen (error case)
-      this.errorMessage = 'OAuth login failed. Please try again.';
-      this.isLoading = false;
     } catch (error: any) {
-      console.error('❌ OAuth login error:', error);
-      this.errorMessage = error.message || 'OAuth login failed. Please try again.';
+      console.error('OAuth login error:', error);
+      this.errorMessage = error?.message || 'Unable to start login. Please try again.';
       this.isLoading = false;
     }
   }
 
-  logout() {
+  logout(): void {
     this.authService.logout();
   }
 }
